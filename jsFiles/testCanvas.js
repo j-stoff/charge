@@ -10,7 +10,7 @@
 function runTest() {
     "use strict";
 
-    /*
+    
     var canvas = document.getElementById("render-canvas");
     var engine = new BABYLON.Engine(canvas);
     var scene = new BABYLON.Scene(engine);
@@ -27,5 +27,7 @@ function runTest() {
         scene.render();
     };
     engine.runRenderLoop(renderLoop);
-    */  
+    
 }
+
+
