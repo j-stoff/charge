@@ -9,6 +9,7 @@
 //Global constants
 const STANDARD_GRID_LENGTH = 10;
 const STANDARD_GRID_WIDTH = 10;
+const ZERO = 0;
 
 
 //Global Variables
@@ -38,4 +39,24 @@ function createGrid(gridLength, gridWidth) {
 	}
 
 	return grid;
+}
+
+
+/*
+
+	Check bounds of grid
+*/
+function checkBoundsOfGrid(position) {
+
+	xCoordinate = position[0];
+	yCoordinate = position[1];
+
+
+	if (xCoordinate > STANDARD_GRID_LENGTH || xCoordinate < ZERO) {
+			return false;
+	} else if (yCoordinate > STANDARD_GRID_WIDTH || yCoordinate < ZERO) {
+			return false;
+	}
+
+	return true;
 }
