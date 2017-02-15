@@ -13,12 +13,12 @@ function dummyUnit(team, startPosition) {
 	this.team = team;
 	this.visualDisplay = null;
 	this.attackDamage = 1;
-	this.visionRadius 1;
+	this.visionRadius = 1;
 	this.position = startPosition;
 	this.action = true;
 	this.buff = null;
 
-	this.movement = function (destination) {
+	this.moveUnit = function (destination) {
 
 		if (checkBoundsOfGrid(destination)) {
 				this.position = destination;
@@ -42,13 +42,9 @@ function dummyUnit(team, startPosition) {
 		return "It works";
 	}
 
-
-	this.moveUnit = function(validLocation) {
-		this.position = validLocation;
-	}
-
 	this.setVisualDisplay = function(object) {
 		//Needs testing with 'object'
 		this.visualDisplay = object;
 	}
 }
+

@@ -6,6 +6,27 @@
 	Layout for grid and physical rendering
 */
 
+var canvas;
+var engine;
+var scene;
+var camera;
+var light;
+var number;
+
+
+function renderScene() {
+	var renderLoop = function() {
+		scene.render();
+
+	}
+
+	engine.runRenderLoop(renderLoop);
+
+
+
+}
+
+
 
 function colorChanger(coordinates) {
 	var color;
@@ -22,19 +43,19 @@ function colorChanger(coordinates) {
 }
 
 function createPhysicalGrid() {
+	canvas = document.getElementById("canvas");
+	engine = new BABYLON.Engine(canvas);
+	scene = new BABYLON.Scene(engine);
+
+	//camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 20, BABYLON.Vector3(5, 5, 5), scene);
+	camera = new BABYLON.FreeCamera("Camera", new BABYLON.Vector3(4.5, 4.5, -12), scene);
+	//camera.attachControl(canvas, true);
+
+	light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
+
+	console.log(camera.position);
 	
 	var grid = createGrid(1, 1);	//Will need to pass in params later
-
-	var canvas = document.getElementById("canvas");
-	var engine = new BABYLON.Engine(canvas);
-	var scene = new BABYLON.Scene(engine);
-
-	var onColor = 1;
-
-	var camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 20, BABYLON.Vector3.Zero(), scene);
-	camera.attachControl(canvas, true);
-	
-	var light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
 
 	for (var counter = 0; counter < grid.length; counter++) {
 		var coordinates = grid[counter];
@@ -54,11 +75,10 @@ function createPhysicalGrid() {
 		grid[counter] = box;
 	}
 
-	var renderLoop = function() {
-		scene.render();
-
-	}
-
-	engine.runRenderLoop(renderLoop);
+	renderScene();
+	
 }
+
+
+
 

@@ -6,19 +6,19 @@
 	Game implemenation
 */
 
-
 /*
 	Function to create units and place them at static starting positions.
 */
 
-createInitialUnitPositions() {
+function createInitialUnitPositions() {
 
 	var testUnit = new dummyUnit("red", [0,0]);
+	/*
 	testUnit.setVisualDisplay(null) {
 
 
 	}
-
+	*/
 
 }
 
@@ -26,7 +26,7 @@ createInitialUnitPositions() {
 	Function to take unit at their position and make a visual display appear
 */
 
-createVisualUnits() {
+function createVisualUnits() {
 
 
 }
@@ -36,12 +36,14 @@ createVisualUnits() {
 */
 
 function gameSetUp() {
+
 	createPhysicalGrid();
 
 	//need a method to create visuals for units
 
 
 }
+
 
 
 function startGame() {
