@@ -12,6 +12,7 @@ var scene;
 var camera;
 var light;
 var number;
+var physicalGrid;
 
 
 function renderScene() {
@@ -51,10 +52,10 @@ function createPhysicalGrid() {
 
 	//light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
 	
-	var grid = createGrid(1, 1);	//Will need to pass in params later
+	var physicalGrid = createGrid(1, 1);	//Will need to pass in params later
 
-	for (var counter = 0; counter < grid.length; counter++) {
-		var coordinates = grid[counter];
+	for (var counter = 0; counter < physicalGrid.length; counter++) {
+		var coordinates = physicalGrid[counter];
 
 
 
@@ -68,7 +69,7 @@ function createPhysicalGrid() {
 		mat.emissiveColor = colorChanger(coordinates);
 		
 		box.material = mat;
-		grid[counter] = box;
+		physicalGrid[counter] = box;
 	}
 	//renderScene();
 }
@@ -81,10 +82,11 @@ function makePhysicalBody () {
 
 	var unitList = createInitialUnitPositionsRed();
 	var unit = unitList[0];
+	var spaceOffSet = (1/3);
 
-	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1);
+	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
 
-	body.position = new BABYLON.Vector3(unit.position[0], unit.position[1], 5);
+	body.position = new BABYLON.Vector3(0 + spaceOffSet, 0 + spaceOffSet, 0.5);
 	var mat = new BABYLON.StandardMaterial("mat", scene);
 
 	mat.emissiveColor = new BABYLON.Color3(118, 25, 239);
@@ -105,12 +107,18 @@ function initializeDisplay() {
 	engine = new BABYLON.Engine(canvas);
 	scene = new BABYLON.Scene(engine);
 
-
+	//camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 20, BABYLON.Vector3(5, 5, 5), scene);
 	camera = new BABYLON.FreeCamera("Camera", new BABYLON.Vector3(4.5, 4.5, -12), scene);
+	//camera.attachControl(canvas, true);
 
 	light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
+
 
 	createPhysicalGrid();
 
 	makePhysicalBody();
+
+	renderScene();
 }
+
+
