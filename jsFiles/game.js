@@ -10,8 +10,9 @@
 	Function to create units and place them at static starting positions.
 */
 
-function createInitialUnitPositions() {
+function createInitialUnitPositionsRed() {
 
+	var unitArray = [];
 	var testUnit = new dummyUnit("red", [0,0]);
 	/*
 	testUnit.setVisualDisplay(null) {
@@ -19,17 +20,11 @@ function createInitialUnitPositions() {
 
 	}
 	*/
+	unitArray.push(testUnit);
 
+	return unitArray;
 }
 
-/*
-	Function to take unit at their position and make a visual display appear
-*/
-
-function createVisualUnits() {
-
-
-}
 
 /*
 	Function used for game initialization and setup
@@ -37,10 +32,9 @@ function createVisualUnits() {
 
 function gameSetUp() {
 
-	createPhysicalGrid();
+	initializeDisplay();
 
 	//need a method to create visuals for units
-
 
 }
 
