@@ -75,27 +75,53 @@ function createPhysicalGrid() {
 }
 
 
-function makePhysicalBody () {
+function makePhysicalBodyBlue () {
 
-	console.log("Start of make");
+	console.log("Start of blue make");
 	//scene = new BABYLON.Scene(engine);
 
-	var unitList = createInitialUnitPositionsRed();
+	var unitList = createInitialUnitPositionsBlue();
 	var unit = unitList[0];
-	var spaceOffSet = (1/3);
 
 	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
 
-	body.position = new BABYLON.Vector3(0 + spaceOffSet, 0 + spaceOffSet, 0.5);
+	body.position = new BABYLON.Vector3(0 , 9, 1.5);
 	var mat = new BABYLON.StandardMaterial("mat", scene);
 
-	mat.emissiveColor = new BABYLON.Color3(118, 25, 239);
+	mat.diffuseColor = new BABYLON.Color3(0,0, 255);
 
 	body.material = mat;
 
 	unit.setVisualDisplay(body);
 
-	console.log("End of Make");
+	console.log("End of blue Make");
+
+	renderScene();
+
+}
+
+
+
+function makePhysicalBodyRed () {
+
+	console.log("Start of red make");
+	//scene = new BABYLON.Scene(engine);
+
+	var unitList = createInitialUnitPositionsRed();
+	var unit = unitList[0];
+
+	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
+
+	body.position = new BABYLON.Vector3(0, 0, 1.5);
+	var mat = new BABYLON.StandardMaterial("mat", scene);
+
+	mat.diffuseColor = new BABYLON.Color3(255, 0, 0);
+
+	body.material = mat;
+
+	unit.setVisualDisplay(body);
+
+	console.log("End of red Make");
 
 	renderScene();
 
@@ -116,7 +142,8 @@ function initializeDisplay() {
 
 	createPhysicalGrid();
 
-	makePhysicalBody();
+	makePhysicalBodyRed();
+	makePhysicalBodyBlue();
 
 	renderScene();
 }

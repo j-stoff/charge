@@ -7,7 +7,22 @@
 */
 
 /*
+	This function initilizes the unit objects and returns them to be used elsewhere.
+*/
+function createInitialUnitPositionsBlue() {
+
+	var unitArray = [];
+	var testUnit = new dummyUnit("blue", [9,0])
+
+	unitArray.push(testUnit);
+
+	return unitArray;
+}
+
+
+/*
 	Function to create units and place them at static starting positions.
+	This is for the red team.
 */
 
 function createInitialUnitPositionsRed() {
