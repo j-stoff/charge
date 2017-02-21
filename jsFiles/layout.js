@@ -131,19 +131,23 @@ function makePhysicalBodyRed () {
 }
 
 
+
 function animationMove(unit, destination){
 	//var moveCheckPassed = false;
-    //var animationBox = new BABYLON.Animation("tutoAnimation", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+   
+    var xMoveTest = checkMoveFromOriginalPosition(unit.position[0], destination[0]);
+    var yMoveTest = checkMoveFromOriginalPosition(unit.position[1], destination[1]);
 
-    console.log("Animation");
     var body = unit.visualDisplay;
-	var animationSpehere = new BABYLON.Animation("test_move", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	
 	var keys = [];
 
 	//moveCheckPassed = unit.moveUnitCheck(destination);
 
 	//change to moveCheckPassed later
-	if (true) {
+	if (xMoveTest) {
+		var animationSpehere = new BABYLON.Animation("test_move", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+		 var xCoordinate = destination[0];
 
 		keys.push({
 			frame: 0,
@@ -154,15 +158,47 @@ function animationMove(unit, destination){
 			frame: 60,
 			value: 4
 		});
+
+
+		animationSpehere.setKeys(keys);
+
+		body.animations.push(animationSpehere);
+
+		scene.beginAnimation(body, 0, 60);
+
 	}
 
-	animationSpehere.setKeys(keys);
+	if (yMoveTest) {
+		var animationSpehere = new BABYLON.Animation("test_move", "position.y", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
 
-	body.push(animationSpehere);
+		var yCoordinate = destination[1];
 
-	scene.beginAnimation(unit, 0, 60);
+
+		keys.push({
+			frame: 0,
+			value: 0
+		});
+
+		keys.push({
+			frame: 60,
+			value: 4
+		});
+
+
+		animationSpehere.setKeys(keys);
+
+		body.animations.push(animationSpehere);
+
+		scene.beginAnimation(body, 0, 60);
+
+	}
+
+
+	console.log("Animation");
+
 
 }
+
 
 function initializeDisplay() {
 
@@ -182,9 +218,10 @@ function initializeDisplay() {
 	makePhysicalBodyRed();
 	makePhysicalBodyBlue();
 
-	animationMove(unitsRed[0], [4,0]);
+	animationMove(unitsRed[0], [4,4]);
 
 	renderScene();
+
 }
 
 

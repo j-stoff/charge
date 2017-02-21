@@ -60,3 +60,12 @@ function checkBoundsOfGrid(position) {
 
 	return false;
 }
+
+
+function checkMoveFromOriginalPosition(unitPosition, destinationPosition) {
+	if (unitPosition === destinationPosition) {
+		return false;
+	}
+
+	return true;
+}

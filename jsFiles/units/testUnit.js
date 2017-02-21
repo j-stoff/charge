@@ -19,7 +19,7 @@ function dummyUnit(team, startPosition) {
 	this.action = true;
 	this.buff = null;
 
-	this.moveUnitCheck = function (destination) {
+	this.moveUnitCheck = function moveUnitCheck(destination) {
 
 		if(this.position === destination) {
 			console.log("No movement");
@@ -33,7 +33,7 @@ function dummyUnit(team, startPosition) {
 		return true;
 	}	
 
-	this.setAction = function(changeInAction) {
+	this.setAction = function setAction(changeInAction) {
 
 		if (changeInAction !== true || changeInAction !== false) {
 			console.log("Set action failure, not boolean");
@@ -42,19 +42,19 @@ function dummyUnit(team, startPosition) {
 		this.action = changeInAction;
 	}
 
-	this.hasAction = function() {
+	this.hasAction = function hasAction() {
 		return this.action;
 	}
 
-	this.unitSpecial = function () {
+	this.unitSpecial = function unitSpecial() {
 		return "It works";
 	}
 
-	this.setName = function(newName){
+	this.setName = function setName(newName){
 		this.name = newName;
 	}
 
-	this.setVisualDisplay = function(object) {
+	this.setVisualDisplay = function setVisualDisplay(object) {
 		//Needs testing with 'object'
 		this.visualDisplay = object;
 	}
