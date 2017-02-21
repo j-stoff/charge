@@ -12,9 +12,9 @@
 function createInitialUnitPositionsBlue() {
 
 	var unitArray = [];
-	var testUnit = new dummyUnit("blue", [9,0])
+	var testUnitBlue = new dummyUnit("blue", [9,0])
 
-	unitArray.push(testUnit);
+	unitArray.push(testUnitBlue);
 
 	return unitArray;
 }
@@ -28,14 +28,14 @@ function createInitialUnitPositionsBlue() {
 function createInitialUnitPositionsRed() {
 
 	var unitArray = [];
-	var testUnit = new dummyUnit("red", [0,0]);
+	var testUnitRed = new dummyUnit("red", [0,0]);
 	/*
 	testUnit.setVisualDisplay(null) {
 
 
 	}
 	*/
-	unitArray.push(testUnit);
+	unitArray.push(testUnitRed);
 
 	return unitArray;
 }

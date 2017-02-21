@@ -13,6 +13,8 @@ var camera;
 var light;
 var number;
 var physicalGrid;
+var unitsRed;
+var unitsBlue;
 
 
 function renderScene() {
@@ -77,9 +79,8 @@ function createPhysicalGrid() {
 
 function makePhysicalBodyBlue () {
 
-	console.log("Start of blue make");
 	//scene = new BABYLON.Scene(engine);
-
+	unitsBlue = [];
 	var unitList = createInitialUnitPositionsBlue();
 	var unit = unitList[0];
 
@@ -98,15 +99,16 @@ function makePhysicalBodyBlue () {
 
 	renderScene();
 
+	unitsBlue.push(unit);
 }
 
 
 
 function makePhysicalBodyRed () {
 
-	console.log("Start of red make");
-	//scene = new BABYLON.Scene(engine);
 
+	//scene = new BABYLON.Scene(engine);
+	unitsRed = [];
 	var unitList = createInitialUnitPositionsRed();
 	var unit = unitList[0];
 
@@ -124,6 +126,41 @@ function makePhysicalBodyRed () {
 	console.log("End of red Make");
 
 	renderScene();
+
+	unitsRed.push(unit);
+}
+
+
+function animationMove(unit, destination){
+	//var moveCheckPassed = false;
+    //var animationBox = new BABYLON.Animation("tutoAnimation", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+
+    console.log("Animation");
+    var body = unit.visualDisplay;
+	var animationSpehere = new BABYLON.Animation("test_move", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+	var keys = [];
+
+	//moveCheckPassed = unit.moveUnitCheck(destination);
+
+	//change to moveCheckPassed later
+	if (true) {
+
+		keys.push({
+			frame: 0,
+			value: 0
+		});
+
+		keys.push({
+			frame: 60,
+			value: 4
+		});
+	}
+
+	animationSpehere.setKeys(keys);
+
+	body.push(animationSpehere);
+
+	scene.beginAnimation(unit, 0, 60);
 
 }
 
@@ -144,6 +181,8 @@ function initializeDisplay() {
 
 	makePhysicalBodyRed();
 	makePhysicalBodyBlue();
+
+	animationMove(unitsRed[0], [4,0]);
 
 	renderScene();
 }

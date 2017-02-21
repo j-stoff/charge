@@ -9,6 +9,7 @@
 
 function dummyUnit(team, startPosition) {
 
+	this.name;
 	this.health = 4;
 	this.team = team;
 	this.visualDisplay = null;
@@ -18,11 +19,18 @@ function dummyUnit(team, startPosition) {
 	this.action = true;
 	this.buff = null;
 
-	this.moveUnit = function (destination) {
+	this.moveUnitCheck = function (destination) {
+
+		if(this.position === destination) {
+			console.log("No movement");
+			return false;
+		}
 
 		if (checkBoundsOfGrid(destination)) {
-				this.position = destination;
+			return false;
 		}
+		this.position = destination;
+		return true;
 	}	
 
 	this.setAction = function(changeInAction) {
@@ -40,6 +48,10 @@ function dummyUnit(team, startPosition) {
 
 	this.unitSpecial = function () {
 		return "It works";
+	}
+
+	this.setName = function(newName){
+		this.name = newName;
 	}
 
 	this.setVisualDisplay = function(object) {

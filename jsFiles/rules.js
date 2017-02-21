@@ -53,10 +53,10 @@ function checkBoundsOfGrid(position) {
 
 
 	if (xCoordinate > STANDARD_GRID_LENGTH || xCoordinate < ZERO) {
-			return false;
+			return true;
 	} else if (yCoordinate > STANDARD_GRID_WIDTH || yCoordinate < ZERO) {
-			return false;
+			return true;
 	}
 
-	return true;
+	return false;
 }
