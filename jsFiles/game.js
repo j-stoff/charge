@@ -10,7 +10,7 @@
 	This function initilizes the unit objects and returns them to be used elsewhere.
 */
 function createInitialUnitPositionsBlue() {
-
+	"use strict";
 	var unitArray = [];
 	var testUnitBlue = new dummyUnit("blue", [9,0])
 
@@ -26,7 +26,7 @@ function createInitialUnitPositionsBlue() {
 */
 
 function createInitialUnitPositionsRed() {
-
+	"use strict";
 	var unitArray = [];
 	var testUnitRed = new dummyUnit("red", [0,0]);
 	/*
@@ -46,7 +46,7 @@ function createInitialUnitPositionsRed() {
 */
 
 function gameSetUp() {
-
+	"use strict";
 	initializeDisplay();
 
 	//need a method to create visuals for units
@@ -56,6 +56,7 @@ function gameSetUp() {
 
 
 function startGame() {
+	"use strict";
 	gameSetUp();
 
 }
