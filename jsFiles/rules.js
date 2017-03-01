@@ -18,6 +18,7 @@ var grid = [];
 
 
 function createGrid(gridLength, gridWidth) {
+	"use strict";
 	var length;
 	var width;
 	var counter = 0;
@@ -48,6 +49,7 @@ function createGrid(gridLength, gridWidth) {
 */
 function checkBoundsOfGrid(position) {
 
+	"use strict";
 	xCoordinate = position[0];
 	yCoordinate = position[1];
 
@@ -63,6 +65,7 @@ function checkBoundsOfGrid(position) {
 
 
 function checkMoveFromOriginalPosition(unitPosition, destinationPosition) {
+	"use strict";
 	if (unitPosition === destinationPosition) {
 		return false;
 	}

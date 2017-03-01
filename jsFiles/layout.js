@@ -13,11 +13,26 @@ var camera;
 var light;
 var number;
 var physicalGrid;
-var unitsRed;
-var unitsBlue;
+var unitsOnMap;
+var gridMap;
+var physicalGrid
+//var unitsOnMap;
 
+
+
+function getUnitsOnMap(){
+	"use strict";
+	return unitsOnMap;
+}
+
+
+function getGridMap() {
+	"use strict";
+	return gridMap;
+}
 
 function renderScene() {
+	"use strict";
 	var renderLoop = function() {
 		scene.render();
 
@@ -30,6 +45,7 @@ function renderScene() {
 
 
 function colorChanger(coordinates) {
+	"use strict";
 	var color;
 	var xCoordinate = coordinates[0];
 	var yCoordinate = coordinates[1];
@@ -44,6 +60,7 @@ function colorChanger(coordinates) {
 }
 
 function createPhysicalGrid() {
+	"use strict";
 	//canvas = document.getElementById("canvas");
 	//engine = new BABYLON.Engine(canvas);
 	//scene = new BABYLON.Scene(engine);
@@ -54,7 +71,9 @@ function createPhysicalGrid() {
 
 	//light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
 	
-	var physicalGrid = createGrid(1, 1);	//Will need to pass in params later
+	physicalGrid = createGrid(1, 1);	//Will need to pass in params later
+
+	gridMap = new Map();
 
 	for (var counter = 0; counter < physicalGrid.length; counter++) {
 		var coordinates = physicalGrid[counter];
@@ -72,17 +91,21 @@ function createPhysicalGrid() {
 		
 		box.material = mat;
 		physicalGrid[counter] = box;
+
+		gridMap.set(box.position, box);
 	}
-	//renderScene();
+
 }
 
 
 function makePhysicalBodyBlue () {
+	"use strict";
 
 	//scene = new BABYLON.Scene(engine);
-	unitsBlue = [];
+
 	var unitList = createInitialUnitPositionsBlue();
 	var unit = unitList[0];
+	//var position = unit.position;
 
 	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
 
@@ -99,18 +122,20 @@ function makePhysicalBodyBlue () {
 
 	renderScene();
 
-	unitsBlue.push(unit);
+	unitsOnMap.push(unit);
 }
 
 
 
 function makePhysicalBodyRed () {
 
-
+	"use strict";
 	//scene = new BABYLON.Scene(engine);
-	unitsRed = [];
+
 	var unitList = createInitialUnitPositionsRed();
 	var unit = unitList[0];
+	//var position = unit.position;
+
 
 	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
 
@@ -127,14 +152,16 @@ function makePhysicalBodyRed () {
 
 	renderScene();
 
-	unitsRed.push(unit);
+
+	unitsOnMap.push(unit);
 }
 
 
 
 function animationMove(unit, destination){
 	//var moveCheckPassed = false;
-   
+
+   	"use strict";
     var xMoveTest = checkMoveFromOriginalPosition(unit.position[0], destination[0]);
     var yMoveTest = checkMoveFromOriginalPosition(unit.position[1], destination[1]);
 
@@ -200,11 +227,31 @@ function animationMove(unit, destination){
 }
 
 
+var selectMesh = function (mesh, position) {
+
+	console.log("In selectMesh");
+
+	mesh.actionManager = new BABYLON.ActionManager(scene);
+	mesh.actionManager.registerAction( 
+		new BABYLON.InterpolateValueAction(
+			BABYLON.ActionManager.OnRightPickTrigger, 	
+			mesh,										
+			"position",
+			position
+
+		)
+
+	);
+
+}
+
 function initializeDisplay() {
 
+	"use strict";
 	canvas = document.getElementById("canvas");
 	engine = new BABYLON.Engine(canvas);
 	scene = new BABYLON.Scene(engine);
+	scene.actionManager = new BABYLON.ActionManager(scene);
 
 	//camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 20, BABYLON.Vector3(5, 5, 5), scene);
 	camera = new BABYLON.FreeCamera("Camera", new BABYLON.Vector3(4.5, 4.5, -12), scene);
@@ -212,13 +259,18 @@ function initializeDisplay() {
 
 	light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
 
+	unitsOnMap = [];
 
 	createPhysicalGrid();
+
+
 
 	makePhysicalBodyRed();
 	makePhysicalBodyBlue();
 
-	animationMove(unitsRed[0], [4,4]);
+	selectMesh(physicalGrid[0], physicalGrid[0].position);
+
+	animationMove(unitsOnMap[0], [4,4]);
 
 	renderScene();
 
