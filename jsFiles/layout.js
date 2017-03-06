@@ -226,11 +226,34 @@ function animationMove(unit, destination){
 
 }
 
+//Panel for actions
+function createActionPanel() {
 
-var selectMesh = function (mesh, position) {
+}
 
-	console.log("In selectMesh");
 
+//
+function getBoxesByPosition(arrayOfBoxPositions) {
+	//Loop through physicalGrid to find boxes that match these positions
+	//return an array of boxes within the range of the unit
+}
+
+
+
+//Creates selectable boxes around the selected unit, movable only
+function createMovableSpace(unit) {
+	//Calculate unit move range here
+	//Unit.position + range
+	//Pass all possible locations into the getBoxesByPosition function
+
+	getBoxesByPosition();
+}
+
+
+var selectUnit = function (mesh) {
+
+	console.log("In selectUnit");
+	/*
 	mesh.actionManager = new BABYLON.ActionManager(scene);
 	mesh.actionManager.registerAction( 
 		new BABYLON.InterpolateValueAction(
@@ -242,7 +265,20 @@ var selectMesh = function (mesh, position) {
 		)
 
 	);
+	*/
 
+	mesh.actionManager = new BABYLON.ActionManager(scene);
+
+	//ExecuteCodeAction(trigger, func, condition)
+	mesh.actionManager.registerAction(
+		new BABYLON.ExecuteCodeAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			createMovableSpace(mesh),
+			true
+			)
+
+
+	); 
 }
 
 function initializeDisplay() {
@@ -268,7 +304,11 @@ function initializeDisplay() {
 	makePhysicalBodyRed();
 	makePhysicalBodyBlue();
 
-	selectMesh(physicalGrid[0], physicalGrid[0].position);
+	selectUnit(physicalGrid[0]);
+
+	for (var counter = 0; counter < unitsOnMap.length; counter++) {
+		selectUnit(unitsOnMap[counter].visualDisplay);
+	}
 
 	animationMove(unitsOnMap[0], [4,4]);
 
