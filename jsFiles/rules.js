@@ -10,6 +10,7 @@
 const STANDARD_GRID_LENGTH = 10;
 const STANDARD_GRID_WIDTH = 10;
 const ZERO = 0;
+const ONE = 1;
 
 
 //Global Variables
@@ -31,8 +32,8 @@ function createGrid(gridLength, gridWidth) {
 		width = STANDARD_GRID_WIDTH
 	}
 
-	for (var index = 0; index < width; index += 1) {
-		for(var insideIndex = 0; insideIndex < length; insideIndex += 1) {
+	for (var index = 1; index <= width; index += 1) {
+		for(var insideIndex = 1; insideIndex <= length; insideIndex += 1) {
 			grid[counter] = [index, insideIndex];
 
 			counter += 1;
@@ -71,4 +72,40 @@ function checkMoveFromOriginalPosition(unitPosition, destinationPosition) {
 	}
 
 	return true;
+}
+
+
+//Takes in the index position from physical grid
+//Returns an array of numbers to use for physical grid
+function calculateRange(indexPosition, distance) {
+	var position = indexPosition + 1;
+	var rowLength = STANDARD_GRID_WIDTH;
+	var moves;
+	var xMove;
+	var yMove;
+	var xCounter;
+	var yCounter;
+	var spotChecker;
+
+	console.log(position);
+
+	//Impossible moves, though likely will not occur
+	if (position < 0 || position >= grid.length) {
+		console.log("Calculation error");
+		return;
+	}
+
+	//
+	xCounter = 0;
+	while (true) {
+		spotChecker = position +
+		if (true) {
+			break;
+		}
+
+	}
+
+
+
+
 }

@@ -81,7 +81,7 @@ function createPhysicalGrid() {
 
 
 		var box = BABYLON.Mesh.CreateBox("box", 1, scene);
-		box.position = new BABYLON.Vector3(coordinates[0], coordinates[1], 2);
+		box.position = new BABYLON.Vector3(coordinates[1], coordinates[0], 2);
 		var mat = new BABYLON.StandardMaterial("mat", scene);
 		
 		//mat.emissiveColor = new BABYLON.Color3(Math.random(), Math.random(), Math.random());
@@ -109,7 +109,8 @@ function makePhysicalBodyBlue () {
 
 	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
 
-	body.position = new BABYLON.Vector3(0 , 9, 1.5);
+	body.position = unit.position;
+
 	var mat = new BABYLON.StandardMaterial("mat", scene);
 
 	mat.diffuseColor = new BABYLON.Color3(0,0, 255);
@@ -186,7 +187,6 @@ function animationMove(unit, destination){
 			value: 4
 		});
 
-
 		animationSpehere.setKeys(keys);
 
 		body.animations.push(animationSpehere);
@@ -232,10 +232,16 @@ function createActionPanel() {
 }
 
 
-//
-function getBoxesByPosition(arrayOfBoxPositions) {
+
+//With the correct Vector3 position, will find boxes around the given box
+function getBoxesByPosition(arrayCounter, unitRange) {
 	//Loop through physicalGrid to find boxes that match these positions
 	//return an array of boxes within the range of the unit
+	var listOfBoxes;
+
+	calculateRange(arrayCounter, unitRange);
+
+	return;
 }
 
 
@@ -245,14 +251,29 @@ function createMovableSpace(unit) {
 	//Calculate unit move range here
 	//Unit.position + range
 	//Pass all possible locations into the getBoxesByPosition function
+	var unitPositionOnGrid = new BABYLON.Vector3(unit.position.x, unit.position.y, 2);
 
-	getBoxesByPosition();
+	var unitRange = unit.moveSpaces; 
+	var movableGridPositions;
+	//var gridLocation = findGridLocation(unitPositionOnGrid);
+
+	for (var counter = 0; counter < physicalGrid.length; counter++) {
+		if (unitPositionOnGrid.equals(physicalGrid[counter].position)) {
+			break;
+		}
+	}
+
+	console.log(counter);
+
+
+	getBoxesByPosition(counter, unitRange);
 }
 
 
-var selectUnit = function (mesh) {
+var selectUnit = function (unit) {
 
 	console.log("In selectUnit");
+	var mesh = unit.visualDisplay;
 	/*
 	mesh.actionManager = new BABYLON.ActionManager(scene);
 	mesh.actionManager.registerAction( 
@@ -273,12 +294,14 @@ var selectUnit = function (mesh) {
 	mesh.actionManager.registerAction(
 		new BABYLON.ExecuteCodeAction(
 			BABYLON.ActionManager.OnPickTrigger,
-			createMovableSpace(mesh),
+			createMovableSpace(unit),
 			true
 			)
 
 
-	); 
+	);
+
+
 }
 
 function initializeDisplay() {
@@ -290,7 +313,7 @@ function initializeDisplay() {
 	scene.actionManager = new BABYLON.ActionManager(scene);
 
 	//camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 20, BABYLON.Vector3(5, 5, 5), scene);
-	camera = new BABYLON.FreeCamera("Camera", new BABYLON.Vector3(4.5, 4.5, -12), scene);
+	camera = new BABYLON.FreeCamera("Camera", new BABYLON.Vector3(5.5, 5.5, -12), scene);
 	//camera.attachControl(canvas, true);
 
 	light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
@@ -304,12 +327,11 @@ function initializeDisplay() {
 	makePhysicalBodyRed();
 	makePhysicalBodyBlue();
 
-	selectUnit(physicalGrid[0]);
-
+	
 	for (var counter = 0; counter < unitsOnMap.length; counter++) {
-		selectUnit(unitsOnMap[counter].visualDisplay);
+		selectUnit(unitsOnMap[counter]);
 	}
-
+	
 	animationMove(unitsOnMap[0], [4,4]);
 
 	renderScene();

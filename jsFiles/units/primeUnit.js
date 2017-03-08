@@ -16,7 +16,7 @@ function primeUnit(team, startPosition) {
 	this.position = startPosition;
 	this.action = true;
 	this.buff = null;
-	this.totalSpacePerMove = 2;
+	this.moveSpaces = 2;
 
 	this.moveUnitCheck = function moveUnitCheck(destination) {
 

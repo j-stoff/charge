@@ -11,8 +11,9 @@
 */
 function createInitialUnitPositionsBlue() {
 	"use strict";
+	var position = new BABYLON.Vector3(10, 1, 1.5);
 	var unitArray = [];
-	var testUnitBlue = new dummyUnit("blue", [9,0])
+	var testUnitBlue = new dummyUnit("blue", position)
 
 	unitArray.push(testUnitBlue);
 
