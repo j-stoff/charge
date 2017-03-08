@@ -78,13 +78,16 @@ function checkMoveFromOriginalPosition(unitPosition, destinationPosition) {
 //Takes in the index position from physical grid
 //Returns an array of numbers to use for physical grid
 function calculateRange(indexPosition, distance) {
-	var position = indexPosition + 1;
+	var position = indexPosition + ONE;		//Offset grid by one
 	var rowLength = STANDARD_GRID_WIDTH;
-	var moves;
-	var xMove;
-	var yMove;
-	var xCounter;
-	var yCounter;
+	var moves  				= [];
+	var counter 			= ONE;
+
+	var moveUpBoolean 		= false;
+	var moveDownBoolean		= false;
+	var moveRightBoolean	= false;
+	var moveLeftBoolean		= false;
+
 	var spotChecker;
 
 	console.log(position);
@@ -95,14 +98,75 @@ function calculateRange(indexPosition, distance) {
 		return;
 	}
 
-	//
-	xCounter = 0;
-	while (true) {
-		spotChecker = position +
-		if (true) {
-			break;
+
+	//Check initial position of piece
+
+	//Move up check
+	if (position < 90 && position > 0) {
+		moveUpBoolean = true;
+	}
+
+	//Move down check
+	if (position > 10 && position < 101) {
+		moveDownBoolean = true;
+	}
+
+	//Move right check
+	if (position % 10 !== 0) {
+		moveRightBoolean = true;
+	}
+
+	//Move left check
+	if ((position - 1) % 10 !== 0) {
+		moveLeftBoolean = true;
+	}
+
+
+
+
+	//Check for X and Y only
+	while (counter <= distance) {
+
+		if (moveUpBoolean) {
+			spotChecker = position + (rowLength * counter);
+			moves.push(spotChecker);
+
+			if (spotChecker >= 90) {
+				moveUpBoolean = false;
+			}
 		}
 
+
+		if (moveDownBoolean) {
+			spotChecker = position - (rowLength * counter);
+			moves.push(spotChecker);
+
+			if (spotChecker <= 10) {
+				moveDownBoolean = false;
+			}
+		}
+
+		if (moveRightBoolean) {
+			spotChecker = position + (ONE * counter);
+			moves.push(spotChecker);
+
+			if (spotChecker % 10 === 0) {
+				moveRightBoolean = false;
+			}
+		}
+
+		if (moveLeftBoolean) {
+			spotChecker = position - (ONE * counter);
+			moves.push(spotChecker);
+
+			if ((spotChecker - ONE) % 10 === 0) {
+				moveLeftBoolean = false;
+			}
+		}
+
+
+
+		counter += ONE;
 	}
 
 
