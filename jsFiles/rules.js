@@ -164,6 +164,26 @@ function calculateRange(indexPosition, distance) {
 			}
 		}
 
+		if (moveUpBoolean && moveRightBoolean) {
+			spotChecker = position + ((rowLength * counter) + (ONE * counter));
+			moves.push(spotChecker);
+		}
+
+		if (moveDownBoolean && moveRightBoolean) {
+			spotChecker = position + ((ONE * counter) - (rowLength * counter));
+			moves.push(spotChecker);
+		}
+
+		if (moveUpBoolean && moveLeftBoolean) {
+			spotChecker = position + ((rowLength * counter) - (ONE * counter));
+			moves.push(spotChecker);
+		}
+
+		if (moveDownBoolean && moveLeftBoolean) {
+			spotChecker = position - ((rowLength * counter) + (ONE * counter));
+		}
+
+
 
 
 		counter += ONE;
