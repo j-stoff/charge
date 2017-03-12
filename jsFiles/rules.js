@@ -22,7 +22,7 @@ function createGrid(gridLength, gridWidth) {
 	"use strict";
 	var length;
 	var width;
-	var counter = 0;
+	var counter = 1;
 
 	if (true)  {	//TODO Check if input is null or over bounds
 		length = STANDARD_GRID_LENGTH
@@ -78,8 +78,8 @@ function checkMoveFromOriginalPosition(unitPosition, destinationPosition) {
 //Takes in the index position from physical grid
 //Returns an array of numbers to use for physical grid
 function calculateRange(indexPosition, distance) {
-	var position = indexPosition + ONE;		//Offset grid by one
-	var rowLength = STANDARD_GRID_WIDTH;
+	var position 			= indexPosition;	//Offset grid by one
+	var rowLength 			= STANDARD_GRID_WIDTH;
 	var moves  				= [];
 	var counter 			= ONE;
 
@@ -90,19 +90,20 @@ function calculateRange(indexPosition, distance) {
 
 	var spotChecker;
 
+	console.log(distance);
 	console.log(position);
 
 	//Impossible moves, though likely will not occur
 	if (position < 0 || position >= grid.length) {
 		console.log("Calculation error");
-		return;
+		return 0;
 	}
 
 
 	//Check initial position of piece
 
 	//Move up check
-	if (position < 90 && position > 0) {
+	if (position < 91 && position > 0) {
 		moveUpBoolean = true;
 	}
 
@@ -123,7 +124,6 @@ function calculateRange(indexPosition, distance) {
 
 
 
-
 	//Check for X and Y only
 	while (counter <= distance) {
 
@@ -131,7 +131,7 @@ function calculateRange(indexPosition, distance) {
 			spotChecker = position + (rowLength * counter);
 			moves.push(spotChecker);
 
-			if (spotChecker >= 90) {
+			if (spotChecker > 90) {
 				moveUpBoolean = false;
 			}
 		}
@@ -189,7 +189,9 @@ function calculateRange(indexPosition, distance) {
 		counter += ONE;
 	}
 
+	console.log(moves);
 
+	return moves;
 
 
 }

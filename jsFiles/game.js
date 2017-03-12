@@ -6,6 +6,20 @@
 	Game implemenation
 */
 
+var unitsOnBoard = [];
+
+
+
+/*
+	Get function to return an array of the units currently on the board.
+*/
+function getUnitsOnBoard() {
+
+	return unitsOnBoard;
+}
+
+
+
 /*
 	This function initilizes the unit objects and returns them to be used elsewhere.
 */
@@ -13,9 +27,10 @@ function createInitialUnitPositionsBlue() {
 	"use strict";
 	var position = new BABYLON.Vector3(10, 1, 1.5);
 	var unitArray = [];
-	var testUnitBlue = new dummyUnit("blue", position)
+	var testUnitBlue = new primeUnit("blue", position)
 
 	unitArray.push(testUnitBlue);
+	unitsOnBoard.push(testUnitBlue);
 
 	return unitArray;
 }
@@ -29,7 +44,7 @@ function createInitialUnitPositionsBlue() {
 function createInitialUnitPositionsRed() {
 	"use strict";
 	var unitArray = [];
-	var testUnitRed = new dummyUnit("red", [0,0]);
+	var testUnitRed = new primeUnit("red", [0,0]);
 	/*
 	testUnit.setVisualDisplay(null) {
 
@@ -37,6 +52,7 @@ function createInitialUnitPositionsRed() {
 	}
 	*/
 	unitArray.push(testUnitRed);
+	unitsOnBoard.push(testUnitRed);
 
 	return unitArray;
 }

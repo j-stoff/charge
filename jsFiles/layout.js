@@ -75,9 +75,8 @@ function createPhysicalGrid() {
 
 	gridMap = new Map();
 
-	for (var counter = 0; counter < physicalGrid.length; counter++) {
+	for (var counter = 1; counter < physicalGrid.length; counter++) {
 		var coordinates = physicalGrid[counter];
-
 
 
 		var box = BABYLON.Mesh.CreateBox("box", 1, scene);
@@ -231,17 +230,31 @@ function createActionPanel() {
 
 }
 
+//Change box color based on input boxes
+function highlightAvailablePositions(arrayOfBoxes, color) {
+	var index;
+	var material = new BABYLON.StandardMaterial("material", scene);
+	material.diffuseColor = color;
 
+	for (index = 0; index < arrayOfBoxes.length; index += 1) {
+		arrayOfBoxes[index].material = material
+	}
+
+}
 
 //With the correct Vector3 position, will find boxes around the given box
 function getBoxesByPosition(arrayCounter, unitRange) {
 	//Loop through physicalGrid to find boxes that match these positions
 	//return an array of boxes within the range of the unit
-	var listOfBoxes;
+	var listOfBoxesByNumber;
 
-	calculateRange(arrayCounter, unitRange);
+	listOfBoxesByNumber = calculateRange(arrayCounter, unitRange);
 
-	return;
+	if (listOfBoxesByNumber === 0) {
+		return 0;
+	}
+
+	return listOfBoxesByNumber;
 }
 
 
@@ -255,18 +268,39 @@ function createMovableSpace(unit) {
 
 	var unitRange = unit.moveSpaces; 
 	var movableGridPositions;
+	var boxColorsMap = new Map();
+	var arrayOfBoxes = [];
+	var index;
+	var moveColor = new BABYLON.Color3((0/255), (255/255), (144/255));
 	//var gridLocation = findGridLocation(unitPositionOnGrid);
 
-	for (var counter = 0; counter < physicalGrid.length; counter++) {
+	for (var counter = 1; counter < physicalGrid.length; counter++) {
 		if (unitPositionOnGrid.equals(physicalGrid[counter].position)) {
 			break;
 		}
 	}
 
-	console.log(counter);
 
 
-	getBoxesByPosition(counter, unitRange);
+	movableGridPositions = getBoxesByPosition(counter, unitRange);
+
+	console.log(movableGridPositions);
+
+	if (movableGridPositions === 0) {
+		console.log("No moves possible");
+		return;
+	}
+
+	//Get box at specific position
+	//Add box and material to map
+	for (index = 0; index < movableGridPositions.length; index += 1) {
+		arrayOfBoxes.push(physicalGrid[movableGridPositions[index]]);
+		boxColorsMap.set(movableGridPositions[index], arrayOfBoxes[index].material);
+	}
+
+	highlightAvailablePositions(arrayOfBoxes, moveColor);
+
+
 }
 
 
@@ -288,6 +322,7 @@ var selectUnit = function (unit) {
 	);
 	*/
 
+
 	mesh.actionManager = new BABYLON.ActionManager(scene);
 
 	//ExecuteCodeAction(trigger, func, condition)
@@ -295,7 +330,7 @@ var selectUnit = function (unit) {
 		new BABYLON.ExecuteCodeAction(
 			BABYLON.ActionManager.OnPickTrigger,
 			createMovableSpace(unit),
-			true
+			false
 			)
 
 
@@ -322,14 +357,14 @@ function initializeDisplay() {
 
 	createPhysicalGrid();
 
-
+	var unitsOnBoard = getUnitsOnBoard();
 
 	makePhysicalBodyRed();
 	makePhysicalBodyBlue();
 
 	
 	for (var counter = 0; counter < unitsOnMap.length; counter++) {
-		selectUnit(unitsOnMap[counter]);
+		selectUnit(unitsOnBoard[counter]);
 	}
 	
 	animationMove(unitsOnMap[0], [4,4]);
