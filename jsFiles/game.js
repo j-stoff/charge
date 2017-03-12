@@ -43,8 +43,9 @@ function createInitialUnitPositionsBlue() {
 
 function createInitialUnitPositionsRed() {
 	"use strict";
+	var position = new BABYLON.Vector3(1, 1, 1.5);
 	var unitArray = [];
-	var testUnitRed = new primeUnit("red", [0,0]);
+	var testUnitRed = new primeUnit("red", position);
 	/*
 	testUnit.setVisualDisplay(null) {
 

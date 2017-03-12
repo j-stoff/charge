@@ -14,7 +14,7 @@ function primeUnit(team, startPosition) {
 	this.attackDamage = 1;
 	this.visionRadius = 1;
 	this.position = startPosition;
-	this.action = true;
+	this.actions = 1;
 	this.buff = null;
 	this.moveSpaces = 2;
 
@@ -32,17 +32,20 @@ function primeUnit(team, startPosition) {
 		return true;
 	}	
 
-	this.setAction = function setAction(changeInAction) {
+	this.setActions = function setActions(changeInAction) {
 
-		if (changeInAction !== true || changeInAction !== false) {
-			console.log("Set action failure, not boolean");
-			return;
-		}
-		this.action = changeInAction;
+		this.actions = changeInAction;
 	}
 
-	this.hasAction = function hasAction() {
-		return this.action;
+	this.getActions = function getActions() {
+		return this.actions;
+	}
+
+	this.hasActions = function hasActions() {
+		if (this.actions >= 1) {
+			return true;
+		}
+		return false;
 	}
 
 	this.unitSpecial = function unitSpecial() {

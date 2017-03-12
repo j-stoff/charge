@@ -181,6 +181,7 @@ function calculateRange(indexPosition, distance) {
 
 		if (moveDownBoolean && moveLeftBoolean) {
 			spotChecker = position - ((rowLength * counter) + (ONE * counter));
+			moves.push(spotChecker);
 		}
 
 

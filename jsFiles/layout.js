@@ -166,6 +166,8 @@ function animationMove(unit, destination){
     var yMoveTest = checkMoveFromOriginalPosition(unit.position[1], destination[1]);
 
     var body = unit.visualDisplay;
+    var finalPosition;
+    var zPosition = 1.5;
 	
 	var keys = [];
 
@@ -218,15 +220,25 @@ function animationMove(unit, destination){
 		scene.beginAnimation(body, 0, 60);
 
 	}
+	console.log(unit.position);
 
+	if (xMoveTest || yMoveTest) {
 
+		finalPosition = new BABYLON.Vector3( destination[0], destination[1], zPosition);
+
+		unit.position = finalPosition;
+	}
 	console.log("Animation");
+
+	console.log(unit.position);
 
 
 }
 
 //Panel for actions
 function createActionPanel() {
+
+	console.log("In action panel!");
 
 }
 
@@ -271,7 +283,7 @@ function createMovableSpace(unit) {
 	var boxColorsMap = new Map();
 	var arrayOfBoxes = [];
 	var index;
-	var moveColor = new BABYLON.Color3((0/255), (255/255), (144/255));
+	var moveColor = new BABYLON.Color3.Green();
 	//var gridLocation = findGridLocation(unitPositionOnGrid);
 
 	for (var counter = 1; counter < physicalGrid.length; counter++) {
@@ -321,23 +333,54 @@ var selectUnit = function (unit) {
 
 	);
 	*/
+	//unit.setActions(0);
 
 
-	mesh.actionManager = new BABYLON.ActionManager(scene);
-
-	//ExecuteCodeAction(trigger, func, condition)
-	mesh.actionManager.registerAction(
-		new BABYLON.ExecuteCodeAction(
-			BABYLON.ActionManager.OnPickTrigger,
-			createMovableSpace(unit),
-			false
-			)
 
 
-	);
+	if (unit.hasActions()) {
+		
+		//ExecuteCodeAction(trigger, func, condition)
+		mesh.actionManager.registerAction(
+			new BABYLON.ExecuteCodeAction(
+				BABYLON.ActionManager.OnPickTrigger,
+				function(){createMovableSpace(unit);}
+				)
+
+
+		);
+
+	}
+
 
 
 }
+
+function loadActionManager(unit) {
+	console.log("Loaded Action Manager");
+	var mesh = unit.visualDisplay;
+
+	mesh.actionManager = new BABYLON.ActionManager(scene);
+
+
+	//Check if player is either 'red' or 'blue'
+	//Create one panel if red create other if blue
+	if (false) {
+
+	}
+	//Will need to make a generic click function to bring up panel
+	//Left click creates the panel, cancel button on panel brings it down
+
+	mesh.actionManager.registerAction(
+		new BABYLON.ExecuteCodeAction(
+			BABYLON.ActionManager.OnLeftPickTrigger,
+			function(){createActionPanel();}
+		)
+	);
+}
+
+
+
 
 function initializeDisplay() {
 
@@ -364,8 +407,11 @@ function initializeDisplay() {
 
 	
 	for (var counter = 0; counter < unitsOnMap.length; counter++) {
-		selectUnit(unitsOnBoard[counter]);
+		loadActionManager(unitsOnBoard[counter]);
 	}
+
+	selectUnit(unitsOnBoard[1]);
+	selectUnit(unitsOnBoard[0]);
 	
 	animationMove(unitsOnMap[0], [4,4]);
 
