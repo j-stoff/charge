@@ -94,6 +94,21 @@ function colorChanger(coordinates) {
 	return color;
 }
 
+function colorPicker(coordinates) {
+	"use strict";
+	var color;
+	var xCoordinate = coordinates[0];
+	var yCoordinate = coordinates[1];
+
+	if ( (xCoordinate % 2) === (yCoordinate % 2) ) {
+		color = BABYLON.Color3.White();
+	} else {
+		color =  BABYLON.Color3.Black();
+	}
+
+	return color;
+}
+
 function createPhysicalGrid() {
 	"use strict";
 	//canvas = document.getElementById("canvas");
@@ -153,8 +168,6 @@ function makePhysicalBodyBlue () {
 
 	unit.setVisualDisplay(body);
 
-	console.log("End of blue Make");
-
 	renderScene();
 
 	unitsOnMap.push(unit);
@@ -182,8 +195,6 @@ function makePhysicalBodyRed () {
 	body.material = mat;
 
 	unit.setVisualDisplay(body);
-
-	console.log("End of red Make");
 
 	renderScene();
 
@@ -255,7 +266,7 @@ function animationMove(unit, destination){
 		scene.beginAnimation(body, 0, 60);
 
 	}
-	console.log(unit.position);
+
 
 	if (xMoveTest || yMoveTest) {
 
@@ -263,9 +274,6 @@ function animationMove(unit, destination){
 
 		unit.position = finalPosition;
 	}
-	console.log("Animation");
-
-	console.log(unit.position);
 
 
 }
@@ -279,15 +287,30 @@ function createActionPanel() {
 
 
 //Will transform the colors of the boxes back to their original color
-function toBoxOriginalColor(boxes, colors) {
+function toBoxOriginalColor(boxes) {
+	var boxCoordinates = [];
+	var index;
+	var colorMaterial = new BABYLON.StandardMaterial("colorMaterial", scene);
 
+	
+	for (index = 0; index < boxes.length; index += 1) {
+		boxCoordinates.push(boxes[index].position.x);
+		boxCoordinates.push(boxes[index].position.y);
 
+		colorMaterial.diffuseColor = colorPicker(boxCoordinates);
+		boxes[index].material = colorMaterial;
+		console.log(boxes[index].material.diffuseColor + boxes[index].position);
+		boxCoordinates = [];
+
+	}
+	
 
 }
 
 
 
 //Change box color based on input boxes
+/*
 function highlightAvailablePositions(arrayOfBoxes, color) {
 	var index;
 	var material = new BABYLON.StandardMaterial("material", scene);
@@ -296,6 +319,16 @@ function highlightAvailablePositions(arrayOfBoxes, color) {
 	for (index = 0; index < arrayOfBoxes.length; index += 1) {
 		arrayOfBoxes[index].material = material
 	}
+
+}
+*/
+
+function highlightAvailablePositions(box, color) {
+	var index;
+	var material = new BABYLON.StandardMaterial("material", scene);
+	material.diffuseColor = color;
+
+	box.material = material;
 
 }
 
@@ -331,6 +364,8 @@ function createMovableSpace(unit) {
 	var index;
 	var moveColor = new BABYLON.Color3.Green();
 	var unitSelected = true;
+	var boxCoordinates = [];
+	var colorMaterial = new BABYLON.StandardMaterial("colorMaterial", scene);
 	//var gridLocation = findGridLocation(unitPositionOnGrid);
 
 	for (var counter = 1; counter < physicalGrid.length; counter++) {
@@ -358,7 +393,6 @@ function createMovableSpace(unit) {
 	}
 
 
-	console.log(arrayOfBoxes[1].position.x);
 	//TODO
 	//Double check possible locations, verify that it is possible to move there
 
@@ -366,8 +400,12 @@ function createMovableSpace(unit) {
 	if (unit.isCurrentlySelected) {
 		//Change squares
 
-		toBoxOriginalColor(arrayOfBoxes, arrayOfColors);
-
+		toBoxOriginalColor(arrayOfBoxes);
+		/*
+		for (index = 0; index < arrayOfBoxes.length; index += 1) {
+			console.log(arrayOfBoxes[index].material.diffuseColor + arrayOfBoxes[index].position);
+		}
+		*/
 		unit.setIsCurrentlySelected(false);
 		return;
 	}
@@ -378,17 +416,20 @@ function createMovableSpace(unit) {
 	}
 
 
+	for (index = 0; index < arrayOfBoxes.length; index += 1){
+		highlightAvailablePositions(arrayOfBoxes[index], moveColor);
 
-	highlightAvailablePositions(arrayOfBoxes, moveColor);
+	}
+
 
 
 
 	//Create clickable boxes based on those that changed color
-
+	/*
 	for (index = 0; index < arrayOfBoxes.length; index += 1) {
-		//loadBoxAction(arrayOfBoxes[index], true, animationMove, unit);
+		loadBoxAction(arrayOfBoxes[index], true, animationMove, unit);
 	}
-
+	*/
 
 
 
@@ -399,7 +440,7 @@ function createMovableSpace(unit) {
 
 var selectUnit = function (unit) {
 
-	console.log("In selectUnit");
+
 	var mesh = unit.visualDisplay;
 	/*
 	mesh.actionManager = new BABYLON.ActionManager(scene);
@@ -456,7 +497,6 @@ var selectUnit = function (unit) {
 }
 
 function loadActionManager(unit) {
-	console.log("Loaded Action Manager");
 	var mesh = unit.visualDisplay;
 
 	mesh.actionManager = new BABYLON.ActionManager(scene);

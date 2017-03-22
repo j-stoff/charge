@@ -90,9 +90,6 @@ function calculateRange(indexPosition, distance) {
 
 	var spotChecker;
 
-	console.log(distance);
-	console.log(position);
-
 	//Impossible moves, though likely will not occur
 	if (position < 0 || position >= grid.length) {
 		console.log("Calculation error");
@@ -190,7 +187,6 @@ function calculateRange(indexPosition, distance) {
 		counter += ONE;
 	}
 
-	console.log(moves);
 
 	return moves;
 
