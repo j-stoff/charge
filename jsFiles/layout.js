@@ -242,6 +242,9 @@ function createActionPanel() {
 
 }
 
+
+//Will transform the colors of the boxes back to their original color
+
 //Change box color based on input boxes
 function highlightAvailablePositions(arrayOfBoxes, color) {
 	var index;
@@ -284,6 +287,7 @@ function createMovableSpace(unit) {
 	var arrayOfBoxes = [];
 	var index;
 	var moveColor = new BABYLON.Color3.Green();
+	var unitSelected = true;
 	//var gridLocation = findGridLocation(unitPositionOnGrid);
 
 	for (var counter = 1; counter < physicalGrid.length; counter++) {
@@ -310,8 +314,17 @@ function createMovableSpace(unit) {
 		boxColorsMap.set(movableGridPositions[index], arrayOfBoxes[index].material);
 	}
 
+	//TODO
+	//Double check possible locations, verify that it is possible to move there
+
 	highlightAvailablePositions(arrayOfBoxes, moveColor);
 
+	if (unitSelected) {
+		toBoxOriginalColor(boxColorsMap);
+	}
+
+
+	//Create clickable boxes based on those that changed color
 
 }
 
@@ -335,7 +348,25 @@ var selectUnit = function (unit) {
 	*/
 	//unit.setActions(0);
 
+	//Change the color of selected unit back to original
+	mesh.actionManager.registerAction(
+		new BABYLON.SetValueAction(
+			BABYLON.ActionManager.OnPointerOutTrigger,
+			mesh.material,
+			"emissiveColor",
+			mesh.material.emissiveColor)
+		);
 
+
+	//Hover over unit changes color to white
+	mesh.actionManager.registerAction(
+		new BABYLON.SetValueAction(
+			BABYLON.ActionManager.OnPointerOverTrigger,
+			mesh.material,
+			"emissiveColor",
+			BABYLON.Color3.White()
+			)
+		);
 
 
 	if (unit.hasActions()) {
