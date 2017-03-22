@@ -46,8 +46,9 @@ function renderScene() {
 
 @param box is the box which have an action associated with it
 @param boolean, is this code to be executed or not
-@param animation is the animation to play
+@param animation string with value of move, attack, or special
 */
+/*
 function loadBoxAction(box, boolean, animation, unit) {
 
 	boxPosition = [];
@@ -55,13 +56,28 @@ function loadBoxAction(box, boolean, animation, unit) {
 	boxPosition.push(box.position.y);
 
 
-	box.actionManager.registerAction(
-		new BABYLON.ExecuteCodeAction(
-			BABYLON.ActionManager.OnPickTrigger,
-			function(){animation(unit, boxPosition)};
-			boolean)
-		);
+	if (animation === "move") {
+		box.actionManager.registerAction(
+			new BABYLON.ExecuteCodeAction(
+				BABYLON.ActionManager.OnPickTrigger,
+				function(unit, boxPosition){animationMove(unit, boxPosition);};
+				boolean)
+			);
+
+	}
+
+	if (animation === "attack") {
+		//stuff for attack
+	}
+
+	if (animation === "special") {
+		//Special for the unit
+	}
+
+
+
 }
+*/
 
 function colorChanger(coordinates) {
 	"use strict";
@@ -109,8 +125,6 @@ function createPhysicalGrid() {
 		
 		box.material = mat;
 		physicalGrid[counter] = box;
-
-		loadBoxAction(box, false, function(){null, null}, null);
 
 		gridMap.set(box.position, box);
 	}
@@ -372,7 +386,7 @@ function createMovableSpace(unit) {
 	//Create clickable boxes based on those that changed color
 
 	for (index = 0; index < arrayOfBoxes.length; index += 1) {
-		loadBoxAction(arrayOfBoxes[index], true, animationMove, unit);
+		//loadBoxAction(arrayOfBoxes[index], true, animationMove, unit);
 	}
 
 
