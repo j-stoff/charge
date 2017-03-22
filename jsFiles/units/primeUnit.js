@@ -17,6 +17,7 @@ function primeUnit(team, startPosition) {
 	this.actions = 1;
 	this.buff = null;
 	this.moveSpaces = 2;
+	this.isCurrentlySelected = false;
 
 	this.moveUnitCheck = function moveUnitCheck(destination) {
 
@@ -61,5 +62,8 @@ function primeUnit(team, startPosition) {
 		this.visualDisplay = object;
 	}
 
+	this.setIsCurrentlySelected = function setIsCurrentlySelected(boolean) {
+		this.isCurrentlySelected = boolean;
+	}
 
 }

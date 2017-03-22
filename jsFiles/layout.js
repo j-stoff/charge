@@ -42,7 +42,26 @@ function renderScene() {
 
 }
 
+/*Function to make all of the boxes selectable in order to move
 
+@param box is the box which have an action associated with it
+@param boolean, is this code to be executed or not
+@param animation is the animation to play
+*/
+function loadBoxAction(box, boolean, animation, unit) {
+
+	boxPosition = [];
+	boxPosition.push(box.position.x);
+	boxPosition.push(box.position.y);
+
+
+	box.actionManager.registerAction(
+		new BABYLON.ExecuteCodeAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			function(){animation(unit, boxPosition)};
+			boolean)
+		);
+}
 
 function colorChanger(coordinates) {
 	"use strict";
@@ -90,6 +109,8 @@ function createPhysicalGrid() {
 		
 		box.material = mat;
 		physicalGrid[counter] = box;
+
+		loadBoxAction(box, false, function(){null, null}, null);
 
 		gridMap.set(box.position, box);
 	}
@@ -244,6 +265,13 @@ function createActionPanel() {
 
 
 //Will transform the colors of the boxes back to their original color
+function toBoxOriginalColor(boxes, colors) {
+
+
+
+}
+
+
 
 //Change box color based on input boxes
 function highlightAvailablePositions(arrayOfBoxes, color) {
@@ -285,6 +313,7 @@ function createMovableSpace(unit) {
 	var movableGridPositions;
 	var boxColorsMap = new Map();
 	var arrayOfBoxes = [];
+	var arrayOfColors = [];
 	var index;
 	var moveColor = new BABYLON.Color3.Green();
 	var unitSelected = true;
@@ -300,7 +329,6 @@ function createMovableSpace(unit) {
 
 	movableGridPositions = getBoxesByPosition(counter, unitRange);
 
-	console.log(movableGridPositions);
 
 	if (movableGridPositions === 0) {
 		console.log("No moves possible");
@@ -311,20 +339,46 @@ function createMovableSpace(unit) {
 	//Add box and material to map
 	for (index = 0; index < movableGridPositions.length; index += 1) {
 		arrayOfBoxes.push(physicalGrid[movableGridPositions[index]]);
-		boxColorsMap.set(movableGridPositions[index], arrayOfBoxes[index].material);
+		arrayOfColors.push(arrayOfBoxes[index]);
+		boxColorsMap.set(arrayOfBoxes[index].material, movableGridPositions[index]);
 	}
 
+
+	console.log(arrayOfBoxes[1].position.x);
 	//TODO
 	//Double check possible locations, verify that it is possible to move there
 
-	highlightAvailablePositions(arrayOfBoxes, moveColor);
+	//If the unit was previously selected and clicked again, change the squares back
+	if (unit.isCurrentlySelected) {
+		//Change squares
 
-	if (unitSelected) {
-		toBoxOriginalColor(boxColorsMap);
+		toBoxOriginalColor(arrayOfBoxes, arrayOfColors);
+
+		unit.setIsCurrentlySelected(false);
+		return;
+	}
+
+	//Change unit to selected
+	if (!unit.isCurrentlySelected) {
+		unit.setIsCurrentlySelected(true);
 	}
 
 
+
+	highlightAvailablePositions(arrayOfBoxes, moveColor);
+
+
+
 	//Create clickable boxes based on those that changed color
+
+	for (index = 0; index < arrayOfBoxes.length; index += 1) {
+		loadBoxAction(arrayOfBoxes[index], true, animationMove, unit);
+	}
+
+
+
+
+	//Set unit to -1 actions
 
 }
 
