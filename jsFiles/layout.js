@@ -229,6 +229,7 @@ function animationMove(unit, destination){
     var xMoveTest = checkMoveFromOriginalPosition(unit.position[0], destination.x);
     var yMoveTest = checkMoveFromOriginalPosition(unit.position[1], destination.y);
     var origin = unit.position;
+    var moveName = unit.name + "_turn_" + ""; 		//Add turn number to this string
 
     var body = unit.visualDisplay;
     var finalPosition;
@@ -239,13 +240,14 @@ function animationMove(unit, destination){
 
 	console.log(xMoveTest);
 	console.log(yMoveTest);
+	console.log(moveName);
 
 	//moveCheckPassed = unit.moveUnitCheck(destination);
 
 	//change to moveCheckPassed later
 	if (xMoveTest) {
-		var animationSpehere = new BABYLON.Animation("test_move", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
-		 var xCoordinate = destination[0];
+		var animationSpehere = new BABYLON.Animation(moveName, "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+		 var xCoordinate = destination.x;
 
 		keys.push({
 			frame: 0,
@@ -254,7 +256,7 @@ function animationMove(unit, destination){
 
 		keys.push({
 			frame: 60,
-			value: 4
+			value: xCoordinate
 		});
 
 		animationSpehere.setKeys(keys);
@@ -266,9 +268,9 @@ function animationMove(unit, destination){
 	}
 
 	if (yMoveTest) {
-		var animationSpehere = new BABYLON.Animation("test_move", "position.y", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+		var animationSpehere = new BABYLON.Animation(moveName, "position.y", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
 
-		var yCoordinate = destination[1];
+		var yCoordinate = destination.y;
 
 
 		keys.push({
@@ -278,7 +280,7 @@ function animationMove(unit, destination){
 
 		keys.push({
 			frame: 60,
-			value: 4
+			value: yCoordinate
 		});
 
 
@@ -293,7 +295,7 @@ function animationMove(unit, destination){
 
 	if (xMoveTest || yMoveTest) {
 
-		finalPosition = new BABYLON.Vector3( destination[0], destination[1], zPosition);
+		finalPosition = new BABYLON.Vector3( destination.x, destination.y, zPosition);
 
 		unit.position = finalPosition;
 	}
@@ -649,6 +651,7 @@ function initializeDisplay() {
 	scene.actionManager = new BABYLON.ActionManager(scene);
 	var counter = 0;
 	var mockLocation = new BABYLON.Vector3(4,4, 3);
+	var diffLocation = new BABYLON.Vector3(10, 10, 1.5);
 
 	//camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 20, BABYLON.Vector3(5, 5, 5), scene);
 	camera = new BABYLON.FreeCamera("Camera", new BABYLON.Vector3(5.5, 5.5, -12), scene);
@@ -678,8 +681,10 @@ function initializeDisplay() {
 	selectUnit(unitsOnBoard[1]);
 	selectUnit(unitsOnBoard[0]);
 	
-	//animationMove(unitsOnMap[0], [4,4]);
 	animationMove(unitsOnMap[0],mockLocation);
+	//animationMove(unitsOnMap[0], [4,4]);
+
+	//animationMove(unitsOnMap[1], diffLocation);
 
 	renderScene();
 

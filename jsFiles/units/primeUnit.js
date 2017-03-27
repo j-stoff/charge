@@ -5,9 +5,9 @@
 */
 
 
-function primeUnit(team, startPosition) {
+function primeUnit(team, startPosition, unitName) {
 
-	this.name;
+	this.name = unitName;
 	this.health = 2;
 	this.team = team;
 	this.visualDisplay;
