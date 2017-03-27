@@ -246,7 +246,7 @@ function animationMove(unit, destination){
 
 	//change to moveCheckPassed later
 	if (xMoveTest) {
-		var animationSpehere = new BABYLON.Animation(moveName, "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+		var animationSpehere = new BABYLON.Animation(moveName, "position.x", 500, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
 		 var xCoordinate = destination.x;
 
 		keys.push({
@@ -255,7 +255,7 @@ function animationMove(unit, destination){
 		});
 
 		keys.push({
-			frame: 60,
+			frame: 5,
 			value: xCoordinate
 		});
 
@@ -263,12 +263,12 @@ function animationMove(unit, destination){
 
 		body.animations.push(animationSpehere);
 
-		scene.beginAnimation(body, 0, 60);
+		scene.beginAnimation(body, 0, 5);
 
 	}
 
 	if (yMoveTest) {
-		var animationSpehere = new BABYLON.Animation(moveName, "position.y", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+		var animationSpehere = new BABYLON.Animation(moveName, "position.y", 500, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
 
 		var yCoordinate = destination.y;
 
@@ -279,7 +279,7 @@ function animationMove(unit, destination){
 		});
 
 		keys.push({
-			frame: 60,
+			frame: 5,
 			value: yCoordinate
 		});
 
@@ -288,7 +288,7 @@ function animationMove(unit, destination){
 
 		body.animations.push(animationSpehere);
 
-		scene.beginAnimation(body, 0, 60);
+		scene.beginAnimation(body, 0, 5);
 
 	}
 
