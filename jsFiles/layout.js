@@ -203,19 +203,42 @@ function makePhysicalBodyRed () {
 }
 
 
+//Stub function
+function animationSpecial() {
 
+
+}
+
+//Stub function
+function animationAttack() {
+
+
+}
+
+
+
+//Moves target unit to destination
 function animationMove(unit, destination){
 	//var moveCheckPassed = false;
 
+
+	console.log(destination);
+	console.log("Is it here yet");
+
    	"use strict";
-    var xMoveTest = checkMoveFromOriginalPosition(unit.position[0], destination[0]);
-    var yMoveTest = checkMoveFromOriginalPosition(unit.position[1], destination[1]);
+    var xMoveTest = checkMoveFromOriginalPosition(unit.position[0], destination.x);
+    var yMoveTest = checkMoveFromOriginalPosition(unit.position[1], destination.y);
+    var origin = unit.position;
 
     var body = unit.visualDisplay;
     var finalPosition;
     var zPosition = 1.5;
 	
 	var keys = [];
+
+
+	console.log(xMoveTest);
+	console.log(yMoveTest);
 
 	//moveCheckPassed = unit.moveUnitCheck(destination);
 
@@ -287,6 +310,7 @@ function createActionPanel() {
 
 
 //Will transform the colors of the boxes back to their original color
+//TODO -- NOT DONE
 function toBoxOriginalColor(boxes) {
 	var boxCoordinates = [];
 	var index;
@@ -307,7 +331,48 @@ function toBoxOriginalColor(boxes) {
 
 }
 
+//Function that will take a list of boxes, loop through the list and for each box
+// it adds an action. This function is for the move command and will execute animation move.
+function makeBoxesActionMove(singleBox, unit ,condition){
+	var index;
+	var localXPos;
+	var localYPos;
+	var boxPosition = [];
+	var tempArray = [];
 
+
+	singleBox.actionManager.registerAction(
+			new BABYLON.ExecuteCodeAction(
+				BABYLON.ActionManager.OnPickTrigger,
+				function(){animationMove(unit, singleBox.position);}
+				)
+
+		);
+	/*
+	for (index = 0; index < listOfBoxes.length; index += 1) {
+		//localXPos = listOfBoxes[index].position.x;
+		//localYPos = listOfBoxes[index].position.y;
+		//tempArray.push(localXPos, localYPos);
+		//boxPosition.push(tempArray[0]);
+		boxPosition.push(listOfBoxes[index].position);
+
+		console.log(boxPosition);
+
+		listOfBoxes[index].actionManager = new BABYLON.ActionManager(scene);
+
+		console.log("Here in this loop!");
+
+		listOfBoxes[index].actionManager.registerAction(
+				new BABYLON.ExecuteCodeAction(
+					BABYLON.ActionManager.OnPickTrigger,
+					function(){animationMove(unit, listOfBoxes[index].position);}
+					)
+
+			);
+		//tempArray = [];
+	}
+	*/
+}
 
 //Change box color based on input boxes
 /*
@@ -418,6 +483,7 @@ function createMovableSpace(unit) {
 
 	for (index = 0; index < arrayOfBoxes.length; index += 1){
 		highlightAvailablePositions(arrayOfBoxes[index], moveColor);
+		makeBoxesActionMove(arrayOfBoxes[index], unit, true);
 
 	}
 
@@ -436,6 +502,8 @@ function createMovableSpace(unit) {
 	//Set unit to -1 actions
 
 }
+
+
 
 
 var selectUnit = function (unit) {
@@ -519,8 +587,59 @@ function loadActionManager(unit) {
 }
 
 
+function selectBoxOnBoard(box){
+
+	box.actionManager = new BABYLON.ActionManager(scene);
+
+	console.log("this far");
+
+	//Move
+	/*
+	box.actionManager.registerAction(
+		new BABYLON.ExecuteCodeAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			function(){animationMove(unit, box.position);},
+			false
+			)
+
+		);
+	*/
+}
+/*
+	//Move
+
+	box.actionManager.registerAction(
+		new BABYLON.ExecuteCodeAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			function(){animationMove(unit, box.position);},
+			false
+			)
+
+		);
 
 
+	//Attack action
+	box.actionManager.registerAction(
+		new BABYLON.ExecuteCodeAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			function(){animationAttack();},
+			false
+
+		);
+
+
+	//Special Action
+	box.actionManager.registerAction(
+		new BABYLON.ExecuteCodeAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			function(){animationSpecial();},
+			false
+			)
+
+		);
+
+
+*/
 function initializeDisplay() {
 
 	"use strict";
@@ -528,6 +647,8 @@ function initializeDisplay() {
 	engine = new BABYLON.Engine(canvas);
 	scene = new BABYLON.Scene(engine);
 	scene.actionManager = new BABYLON.ActionManager(scene);
+	var counter = 0;
+	var mockLocation = new BABYLON.Vector3(4,4, 3);
 
 	//camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 8, 20, BABYLON.Vector3(5, 5, 5), scene);
 	camera = new BABYLON.FreeCamera("Camera", new BABYLON.Vector3(5.5, 5.5, -12), scene);
@@ -544,15 +665,21 @@ function initializeDisplay() {
 	makePhysicalBodyRed();
 	makePhysicalBodyBlue();
 
+
+	for (counter = 1; counter < physicalGrid.length; counter += 1) {
+		selectBoxOnBoard(physicalGrid[counter]);
+	}
+
 	
-	for (var counter = 0; counter < unitsOnMap.length; counter++) {
+	for (counter = 0; counter < unitsOnMap.length; counter++) {
 		loadActionManager(unitsOnBoard[counter]);
 	}
 
 	selectUnit(unitsOnBoard[1]);
 	selectUnit(unitsOnBoard[0]);
 	
-	animationMove(unitsOnMap[0], [4,4]);
+	//animationMove(unitsOnMap[0], [4,4]);
+	animationMove(unitsOnMap[0],mockLocation);
 
 	renderScene();
 
