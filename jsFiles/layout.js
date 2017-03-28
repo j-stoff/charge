@@ -120,18 +120,21 @@ function createPhysicalGrid() {
 	//camera.attachControl(canvas, true);
 
 	//light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
-	
+	var boxName;
+	var coordinates;
+	var box;
+	var mat;
 	physicalGrid = createGrid(1, 1);	//Will need to pass in params later
 
 	gridMap = new Map();
 
 	for (var counter = 1; counter < physicalGrid.length; counter++) {
-		var coordinates = physicalGrid[counter];
+		coordinates = physicalGrid[counter];
+		boxName = "box_" + counter;
 
-
-		var box = BABYLON.Mesh.CreateBox("box", 1, scene);
+		box = BABYLON.Mesh.CreateBox(boxName, 1, scene);
 		box.position = new BABYLON.Vector3(coordinates[1], coordinates[0], 2);
-		var mat = new BABYLON.StandardMaterial("mat", scene);
+		mat = new BABYLON.StandardMaterial("mat", scene);
 		
 		//mat.emissiveColor = new BABYLON.Color3(Math.random(), Math.random(), Math.random());
 
@@ -246,7 +249,7 @@ function animationMove(unit, destination){
 
 	//change to moveCheckPassed later
 	if (xMoveTest) {
-		var animationSpehere = new BABYLON.Animation(moveName, "position.x", 500, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+		var animationSpehere = new BABYLON.Animation(moveName, "position.x", 5000, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
 		 var xCoordinate = destination.x;
 
 		keys.push({
@@ -268,7 +271,7 @@ function animationMove(unit, destination){
 	}
 
 	if (yMoveTest) {
-		var animationSpehere = new BABYLON.Animation(moveName, "position.y", 500, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+		var animationSpehere = new BABYLON.Animation(moveName, "position.y", 5000, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
 
 		var yCoordinate = destination.y;
 
@@ -468,6 +471,9 @@ function createMovableSpace(unit) {
 		//Change squares
 
 		toBoxOriginalColor(arrayOfBoxes);
+		for (index = 0; index < arrayOfBoxes.length; index += 1) {
+			zeroObject(arrayOfBoxes[index]);
+		}
 		/*
 		for (index = 0; index < arrayOfBoxes.length; index += 1) {
 			console.log(arrayOfBoxes[index].material.diffuseColor + arrayOfBoxes[index].position);
@@ -588,12 +594,33 @@ function loadActionManager(unit) {
 	);
 }
 
+//Reset actions to do nothing
+function zeroObject(mesh) {
+	//Action manager must be created?
+	//Recreate action mamanger to reset????
+	mesh.actionManager = new BABYLON.ActionManager(scene);
+
+
+	console.log("No actions");
+
+	mesh.actionManager.registerAction(
+		new BABYLON.DoNothingAction(
+			BABYLON.ActionManager.OnPickTrigger
+			)
+	
+	);
+
+}
+
+
 
 function selectBoxOnBoard(box){
 
 	box.actionManager = new BABYLON.ActionManager(scene);
 
 	console.log("this far");
+
+	zeroObject(box);
 
 	//Move
 	/*
