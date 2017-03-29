@@ -83,6 +83,11 @@ function calculateRange(indexPosition, distance) {
 	var moves  				= [];
 	var counter 			= ONE;
 
+	var moveUpSpaces		= 0;
+	var moveDownSpaces		= 0;
+	var moveLeftSpaces		= 0;
+	var moveRightSpaces		= 0;
+
 	var moveUpBoolean 		= false;
 	var moveDownBoolean		= false;
 	var moveRightBoolean	= false;
@@ -128,9 +133,13 @@ function calculateRange(indexPosition, distance) {
 			spotChecker = position + (rowLength * counter);
 			moves.push(spotChecker);
 
+			moveUpSpaces = spotChecker;
+
+			/*
 			if (spotChecker > 90) {
 				moveUpBoolean = false;
 			}
+			*/
 		}
 
 
@@ -138,27 +147,39 @@ function calculateRange(indexPosition, distance) {
 			spotChecker = position - (rowLength * counter);
 			moves.push(spotChecker);
 
+			moveDownSpaces = spotChecker;
+
+			/*
 			if (spotChecker <= 10) {
 				moveDownBoolean = false;
 			}
+			*/
 		}
 
 		if (moveRightBoolean) {
 			spotChecker = position + (ONE * counter);
 			moves.push(spotChecker);
 
+			moveRightSpaces = spotChecker;
+
+			/*
 			if (spotChecker % 10 === 0) {
 				moveRightBoolean = false;
 			}
+			*/
 		}
 
 		if (moveLeftBoolean) {
 			spotChecker = position - (ONE * counter);
 			moves.push(spotChecker);
 
+			moveLeftSpaces = spotChecker;
+
+			/*
 			if ((spotChecker - ONE) % 10 === 0) {
 				moveLeftBoolean = false;
 			}
+			*/
 		}
 
 		if (moveUpBoolean && moveRightBoolean) {
@@ -181,11 +202,31 @@ function calculateRange(indexPosition, distance) {
 			moves.push(spotChecker);
 		}
 
+		if (moveUpSpaces > 90) {
+			moveUpBoolean = false;
+		}
 
+
+		if (moveDownSpaces <= 10) {
+			moveDownBoolean = false;
+		}
+
+
+
+		if (moveRightSpaces % 10 === 0) {
+			moveRightBoolean = false;
+		}
+
+
+		if ((moveLeftSpaces - ONE) % 10 === 0) {
+			moveLeftBoolean = false;
+		}
 
 
 		counter += ONE;
 	}
+
+	console.log(moves);
 
 
 	return moves;
