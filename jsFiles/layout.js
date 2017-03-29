@@ -254,7 +254,7 @@ function animationMove(unit, destination){
 
 		keys.push({
 			frame: 0,
-			value: 0
+			value: unit.position.x
 		});
 
 		keys.push({
@@ -278,7 +278,7 @@ function animationMove(unit, destination){
 
 		keys.push({
 			frame: 0,
-			value: 0
+			value: unit.position.y
 		});
 
 		keys.push({
@@ -336,20 +336,46 @@ function toBoxOriginalColor(boxes) {
 
 }
 
+
+
+
+function getBoxesFromIndexPosition(arrayOfIndexPositions) {
+	var arrayWithBoxes = [];
+	var index;
+
+	for(index = 0; index < arrayOfIndexPositions.length; index += 1) {
+		arrayWithBoxes.push(physicalGrid[arrayOfIndexPositions[index]]);
+	}
+
+	return arrayWithBoxes;
+}
+
+
+
 //Function that will take a list of boxes, loop through the list and for each box
 // it adds an action. This function is for the move command and will execute animation move.
-function makeBoxesActionMove(singleBox, unit ,condition){
+function makeBoxesActionMove(singleBox, unit, boxNumberOrigin){
 	var index;
 	var localXPos;
 	var localYPos;
-	var boxPosition = [];
-	var tempArray = [];
+	var listOfBoxObjects;
+	var	boxPositionsAroundOrigin;
 
+	boxPositionsAroundOrigin = getBoxesByPosition(boxNumberOrigin, unit.moveSpaces);
+
+	listOfBoxObjects = getBoxesFromIndexPosition(boxPositionsAroundOrigin);
 
 	singleBox.actionManager.registerAction(
 			new BABYLON.ExecuteCodeAction(
 				BABYLON.ActionManager.OnPickTrigger,
-				function(){animationMove(unit, singleBox.position);}
+				function(){animationMove(unit, singleBox.position);
+					var index;
+					for (index = 0; index < listOfBoxObjects.length; index += 1) {
+						zeroObject(listOfBoxObjects[index]);
+					}
+
+				zeroObject(singleBox);
+				}
 				)
 
 		);
@@ -377,6 +403,8 @@ function makeBoxesActionMove(singleBox, unit ,condition){
 		//tempArray = [];
 	}
 	*/
+
+
 }
 
 //Change box color based on input boxes
@@ -403,12 +431,12 @@ function highlightAvailablePositions(box, color) {
 }
 
 //With the correct Vector3 position, will find boxes around the given box
-function getBoxesByPosition(arrayCounter, unitRange) {
+function getBoxesByPosition(positionOnBoard, unitRange) {
 	//Loop through physicalGrid to find boxes that match these positions
 	//return an array of boxes within the range of the unit
 	var listOfBoxesByNumber;
 
-	listOfBoxesByNumber = calculateRange(arrayCounter, unitRange);
+	listOfBoxesByNumber = calculateRange(positionOnBoard, unitRange);
 
 	if (listOfBoxesByNumber === 0) {
 		return 0;
@@ -438,15 +466,15 @@ function createMovableSpace(unit) {
 	var colorMaterial = new BABYLON.StandardMaterial("colorMaterial", scene);
 	//var gridLocation = findGridLocation(unitPositionOnGrid);
 
-	for (var counter = 1; counter < physicalGrid.length; counter++) {
-		if (unitPositionOnGrid.equals(physicalGrid[counter].position)) {
+	for (var boxOnBoard = 1; boxOnBoard < physicalGrid.length; boxOnBoard++) {
+		if (unitPositionOnGrid.equals(physicalGrid[boxOnBoard].position)) {
 			break;
 		}
 	}
 
 
 
-	movableGridPositions = getBoxesByPosition(counter, unitRange);
+	movableGridPositions = getBoxesByPosition(boxOnBoard, unitRange);
 
 
 	if (movableGridPositions === 0) {
@@ -454,15 +482,21 @@ function createMovableSpace(unit) {
 		return;
 	}
 
+
+	arrayOfBoxes = getBoxesFromIndexPosition(movableGridPositions);
+
+
+
 	//Get box at specific position
 	//Add box and material to map
+	/*
 	for (index = 0; index < movableGridPositions.length; index += 1) {
 		arrayOfBoxes.push(physicalGrid[movableGridPositions[index]]);
 		arrayOfColors.push(arrayOfBoxes[index]);
 		boxColorsMap.set(arrayOfBoxes[index].material, movableGridPositions[index]);
 	}
-
-
+	*/
+	
 	//TODO
 	//Double check possible locations, verify that it is possible to move there
 
@@ -491,7 +525,7 @@ function createMovableSpace(unit) {
 
 	for (index = 0; index < arrayOfBoxes.length; index += 1){
 		highlightAvailablePositions(arrayOfBoxes[index], moveColor);
-		makeBoxesActionMove(arrayOfBoxes[index], unit, true);
+		makeBoxesActionMove(arrayOfBoxes[index], unit, boxOnBoard);
 
 	}
 
@@ -508,6 +542,7 @@ function createMovableSpace(unit) {
 
 
 	//Set unit to -1 actions
+
 
 }
 
@@ -600,9 +635,6 @@ function zeroObject(mesh) {
 	//Recreate action mamanger to reset????
 	mesh.actionManager = new BABYLON.ActionManager(scene);
 
-
-	console.log("No actions");
-
 	mesh.actionManager.registerAction(
 		new BABYLON.DoNothingAction(
 			BABYLON.ActionManager.OnPickTrigger
@@ -615,10 +647,6 @@ function zeroObject(mesh) {
 
 
 function selectBoxOnBoard(box){
-
-	box.actionManager = new BABYLON.ActionManager(scene);
-
-	console.log("this far");
 
 	zeroObject(box);
 
