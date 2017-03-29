@@ -226,7 +226,6 @@ function animationMove(unit, destination){
 
 
 	console.log(destination);
-	console.log("Is it here yet");
 
    	"use strict";
     var xMoveTest = checkMoveFromOriginalPosition(unit.position[0], destination.x);
@@ -240,10 +239,6 @@ function animationMove(unit, destination){
 	
 	var keys = [];
 
-
-	console.log(xMoveTest);
-	console.log(yMoveTest);
-	console.log(moveName);
 
 	//moveCheckPassed = unit.moveUnitCheck(destination);
 
@@ -369,12 +364,17 @@ function makeBoxesActionMove(singleBox, unit, boxNumberOrigin){
 			new BABYLON.ExecuteCodeAction(
 				BABYLON.ActionManager.OnPickTrigger,
 				function(){animationMove(unit, singleBox.position);
+
+					toBoxOriginalColor(listOfBoxObjects);
+
 					var index;
 					for (index = 0; index < listOfBoxObjects.length; index += 1) {
 						zeroObject(listOfBoxObjects[index]);
 					}
 
 				zeroObject(singleBox);
+
+
 				}
 				)
 
@@ -504,10 +504,12 @@ function createMovableSpace(unit) {
 	if (unit.isCurrentlySelected) {
 		//Change squares
 
-		toBoxOriginalColor(arrayOfBoxes);
+		//toBoxOriginalColor(arrayOfBoxes);
+		/*
 		for (index = 0; index < arrayOfBoxes.length; index += 1) {
 			zeroObject(arrayOfBoxes[index]);
 		}
+		*/
 		/*
 		for (index = 0; index < arrayOfBoxes.length; index += 1) {
 			console.log(arrayOfBoxes[index].material.diffuseColor + arrayOfBoxes[index].position);
