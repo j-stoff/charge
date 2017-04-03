@@ -9,6 +9,13 @@
 var unitsOnBoard = [];
 
 
+/*
+	This function simply logs to the console that a function call was successful
+*/
+var testFunction = function testFunction() {
+	console.log("TEST FUNCTION SUCCESSFUL");
+
+}
 
 /*
 	Get function to return an array of the units currently on the board.

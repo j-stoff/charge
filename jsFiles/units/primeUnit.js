@@ -19,6 +19,11 @@ function primeUnit(team, startPosition, unitName) {
 	this.moveSpaces = 2;
 	this.isCurrentlySelected = false;
 
+	this.getTeam = function getTeam() {
+
+		return this.team;
+	}
+
 	this.moveUnitCheck = function moveUnitCheck(destination) {
 
 		if(this.position === destination) {

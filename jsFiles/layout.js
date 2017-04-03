@@ -19,6 +19,33 @@ var physicalGrid
 //var unitsOnMap;
 
 
+/*
+	For retreiving the engine variable. Unsure if this is useful.
+	@return engine running the application.
+*/
+function getEngine() {
+
+	return engine;
+}
+
+
+/*
+	A get function for canvas.
+	@return canvas used by the game.
+*/
+function getCanvas() {
+
+	return canvas;
+}
+
+/*
+	A get function for scene.
+	@return current scene.
+*/
+function getScene() {
+
+	return scene;
+}
 
 function getUnitsOnMap(){
 	"use strict";
@@ -124,6 +151,8 @@ function createPhysicalGrid() {
 	var coordinates;
 	var box;
 	var mat;
+	var materialName;
+
 	physicalGrid = createGrid(1, 1);	//Will need to pass in params later
 
 	gridMap = new Map();
@@ -131,10 +160,11 @@ function createPhysicalGrid() {
 	for (var counter = 1; counter < physicalGrid.length; counter++) {
 		coordinates = physicalGrid[counter];
 		boxName = "box_" + counter;
+		materialName = "mat_" + counter;
 
 		box = BABYLON.Mesh.CreateBox(boxName, 1, scene);
 		box.position = new BABYLON.Vector3(coordinates[1], coordinates[0], 2);
-		mat = new BABYLON.StandardMaterial("mat", scene);
+		mat = new BABYLON.StandardMaterial(materialName, scene);
 		
 		//mat.emissiveColor = new BABYLON.Color3(Math.random(), Math.random(), Math.random());
 
@@ -225,8 +255,6 @@ function animationMove(unit, destination){
 	//var moveCheckPassed = false;
 
 
-	console.log(destination);
-
    	"use strict";
     var xMoveTest = checkMoveFromOriginalPosition(unit.position[0], destination.x);
     var yMoveTest = checkMoveFromOriginalPosition(unit.position[1], destination.y);
@@ -301,12 +329,7 @@ function animationMove(unit, destination){
 
 }
 
-//Panel for actions
-function createActionPanel() {
 
-	console.log("In action panel!");
-
-}
 
 
 //Will transform the colors of the boxes back to their original color
@@ -321,9 +344,9 @@ function toBoxOriginalColor(boxes) {
 		boxCoordinates.push(boxes[index].position.x);
 		boxCoordinates.push(boxes[index].position.y);
 
-		colorMaterial.diffuseColor = colorPicker(boxCoordinates);
+		colorMaterial.emissiveColor = colorPicker(boxCoordinates);
 		boxes[index].material = colorMaterial;
-		console.log(boxes[index].material.diffuseColor + boxes[index].position);
+		console.log(boxes[index].material.emissiveColor + boxes[index].position);
 		boxCoordinates = [];
 
 	}
@@ -331,9 +354,28 @@ function toBoxOriginalColor(boxes) {
 
 }
 
+//Function to create a map based on an array of Box mesh Objects
+//@param lsitOfBoxes is an array of box mesh Objects
+function generateBoxesMap(listOfBoxes) {
+	var map = new Map();
+	var index;
 
 
+	for (index = 0; index < listOfBoxes.length; index += 1) {
+		map.set(listOfBoxes[index], listOfBoxes[index].material);
+	}
 
+
+	console.log(map);
+	console.log(map.get(listOfBoxes[index - 1]).name);
+
+	return map;
+}
+
+
+//helper function
+// A function to create an array by looping through the parameter array
+//@param arrayOfIndexPositions is an array filled with the box number based on the physical grid
 function getBoxesFromIndexPosition(arrayOfIndexPositions) {
 	var arrayWithBoxes = [];
 	var index;
@@ -379,52 +421,16 @@ function makeBoxesActionMove(singleBox, unit, boxNumberOrigin){
 				)
 
 		);
-	/*
-	for (index = 0; index < listOfBoxes.length; index += 1) {
-		//localXPos = listOfBoxes[index].position.x;
-		//localYPos = listOfBoxes[index].position.y;
-		//tempArray.push(localXPos, localYPos);
-		//boxPosition.push(tempArray[0]);
-		boxPosition.push(listOfBoxes[index].position);
-
-		console.log(boxPosition);
-
-		listOfBoxes[index].actionManager = new BABYLON.ActionManager(scene);
-
-		console.log("Here in this loop!");
-
-		listOfBoxes[index].actionManager.registerAction(
-				new BABYLON.ExecuteCodeAction(
-					BABYLON.ActionManager.OnPickTrigger,
-					function(){animationMove(unit, listOfBoxes[index].position);}
-					)
-
-			);
-		//tempArray = [];
-	}
-	*/
 
 
 }
 
-//Change box color based on input boxes
-/*
-function highlightAvailablePositions(arrayOfBoxes, color) {
-	var index;
-	var material = new BABYLON.StandardMaterial("material", scene);
-	material.diffuseColor = color;
 
-	for (index = 0; index < arrayOfBoxes.length; index += 1) {
-		arrayOfBoxes[index].material = material
-	}
-
-}
-*/
 
 function highlightAvailablePositions(box, color) {
 	var index;
 	var material = new BABYLON.StandardMaterial("material", scene);
-	material.diffuseColor = color;
+	material.emissiveColor = color;
 
 	box.material = material;
 
@@ -484,6 +490,8 @@ function createMovableSpace(unit) {
 
 
 	arrayOfBoxes = getBoxesFromIndexPosition(movableGridPositions);
+
+	boxColorsMap = generateBoxesMap(arrayOfBoxes);
 
 
 
@@ -606,8 +614,28 @@ var selectUnit = function (unit) {
 	}
 
 
+}
+
+
+/*
+	Function is responsible for creating a panel.
+	The panel is created in the gui portion of the code.
+*/
+function createActionPanel(unit) {
+
+	console.log("Loading panel");
+
+
+
+	makeGUISystem();
+
+
+
+	createPanel(null, unit);
 
 }
+
+
 
 function loadActionManager(unit) {
 	var mesh = unit.visualDisplay;
@@ -626,7 +654,7 @@ function loadActionManager(unit) {
 	mesh.actionManager.registerAction(
 		new BABYLON.ExecuteCodeAction(
 			BABYLON.ActionManager.OnLeftPickTrigger,
-			function(){createActionPanel();}
+			function(){createActionPanel(unit);}
 		)
 	);
 }
@@ -725,18 +753,18 @@ function initializeDisplay() {
 	makePhysicalBodyRed();
 	makePhysicalBodyBlue();
 
-
+	
 	for (counter = 1; counter < physicalGrid.length; counter += 1) {
 		selectBoxOnBoard(physicalGrid[counter]);
 	}
-
+	
 	
 	for (counter = 0; counter < unitsOnMap.length; counter++) {
 		loadActionManager(unitsOnBoard[counter]);
 	}
 
-	selectUnit(unitsOnBoard[1]);
-	selectUnit(unitsOnBoard[0]);
+	//selectUnit(unitsOnBoard[1]);
+	//selectUnit(unitsOnBoard[0]);
 	
 	animationMove(unitsOnMap[0],mockLocation);
 	//animationMove(unitsOnMap[0], [4,4]);
