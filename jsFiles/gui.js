@@ -8,6 +8,7 @@
 //var scene;
 var guiSystem;
 var guiMade = false;
+var gui;
 
 
 /*
@@ -18,9 +19,9 @@ var guiMade = false;
 
 function makeGUISystem() {
 
+	gui = new BABYLON.ScreenSpaceCanvas2D(scene, {id: "CanvasGUI"});
 
-
-	guiSystem = new CASTORGUI.GUIManager(canvas);
+	//guiSystem = new CASTORGUI.GUIManager(canvas);
 
 	guiMade = true;
 
@@ -64,20 +65,66 @@ function createPanel(player, unit) {
 	@param unit is the unit being selected
 */
 function createGUIActionPanel(player, unit) {
+	console.log("This far");
+
+	var scene = getScene();
+	var frame;
+	var group;
+	var panelGUI;
+	// var canvas = new BABYLON.ScreenSpaceCanvas2D(scene, { 
+	//id: "ScreenCanvas",  backgroundFill: "#40404040", backgroundRoundRadius: 10 });
+
+	frame = new BABYLON.Rectangle2D({ parent: gui, id: "frame", size: null, border: "#CAE428FF", borderThickness: 1 });
+	/*
+	group = new BABYLON.Group2D({
+        parent: frame, id: "group", layoutEngine: "StackPanel", children: [
+            new BABYLON.Rectangle2D({ id: "rect1", width: 100, height: 100, fill: "#40C040FF", marginAlignment: "v: center, h:center" }),
+            new BABYLON.Rectangle2D({ id: "rect2", width: 100, height: 100, fill: "#C04040FF", margin: 10 }),
+            new BABYLON.Rectangle2D({ id: "rect3", width: 100, height: 100, fill: "#4040C0FF" }),
+        ]
+    });
+	*/
+	var oldgui = document.querySelector("#datGUI");
+	if (oldgui != null)
+	{
+		console.log("Old GUI removed");
+		oldgui.remove();
+	}
+	
+	//Will need to add children to JSON
+	
+	panelGUI = new BABYLON.Rectangle2D({
+		parent: gui,
+		id: "actionPanel",
+		x: 150,
+		y: 200,
+		w: 5,
+		h: 5,
+		fill: "#40C040FF"
+	});
+	
+	//panelGUI.domElement.style.width = "400px";
+	//panelGUI.domElement.id = "actionPanel";
+
+
+
+
+	console.log("Gui made");
 
 	//Add player.getTeam()
+	/* OLD STUFF - CASTOR GUI
 	panelName = "_player_action_panel";
 
 	canvasWidth = guiSystem.getCanvasWidth().width;
 	canvasHeight = guiSystem.getCanvasWidth().height;
 
-	console.log("In the actual action panel");
+	console.log("In the actual action panel");	
 
 	console.log(canvasWidth);
 	console.log(canvasHeight);
 
-	//var panel = new CASTORGUI.GUIPanel(panelName, {x:(canvasWidth / 10), y:10, w:(canvasWidth / 12) h: (canvasHeight * 0.9)}, guiSystem, testFunction);
-
+	var panel = new CASTORGUI.GUIPanel("test", {x:5, y:10, w:50 h:50, overflow: "hidden"}, guiSystem);
+	*/
 }
 
 
