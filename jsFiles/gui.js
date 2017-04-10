@@ -4,8 +4,6 @@
 	Author: Jacob Stoffregen
 */
 
-//var canvas;
-//var scene;
 var guiSystem;
 var guiMade = false;
 var gui;
@@ -71,10 +69,15 @@ function createGUIActionPanel(player, unit) {
 	var frame;
 	var group;
 	var panelGUI;
+	var moveButton;
+	var attackButton;
+	var unitSpecialButton;
+	var closeButton;
+	var blackColor = new BABYLON.Color4(0,0,0, 1);
 	// var canvas = new BABYLON.ScreenSpaceCanvas2D(scene, { 
 	//id: "ScreenCanvas",  backgroundFill: "#40404040", backgroundRoundRadius: 10 });
 
-	frame = new BABYLON.Rectangle2D({ parent: gui, id: "frame", size: null, border: "#CAE428FF", borderThickness: 1 });
+	frame = new BABYLON.Rectangle2D({ parent: gui, id: "frame", size: null, });
 	/*
 	group = new BABYLON.Group2D({
         parent: frame, id: "group", layoutEngine: "StackPanel", children: [
@@ -90,19 +93,89 @@ function createGUIActionPanel(player, unit) {
 		console.log("Old GUI removed");
 		oldgui.remove();
 	}
-	
+	/*
+	group = new BABYLON.Group2D({
+		parent: frame, id: "action_panel", layoutEngine: "StackPanel", x: 50, y: 100, children: [
+			new BABYLON.Rectangle2D({ id: "main_panel", width: 350, height: 750, border: "#321BE5FF", borderThickness: 5, fill: "#5AFCDCFF"}),
+			new BABYLON.Rectangle2D({ id: "move_button", width: 100, height: 50, marginAlignment: "h: center, v:center", fill: "#FFFFFFFF"}),
+		]
+	});
+	*/
+
 	//Will need to add children to JSON
 	
 	panelGUI = new BABYLON.Rectangle2D({
-		parent: gui,
+		parent: frame,
 		id: "actionPanel",
-		x: 150,
-		y: 200,
-		w: 5,
-		h: 5,
-		fill: "#40C040FF"
+		layoutEngine: "action_panel",
+		x: 50,
+		y: 100,
+		width: 350,
+		height: 750,
+		border: "#321BE5FF",
+		borderThickness: 5,
+		fill: "#5AFCDCFF"
 	});
+
+
+
+	moveButton = new BABYLON.Rectangle2D({ 
+		parent: panelGUI,
+		id: "move_button",
+		width: 110, 
+		height: 50, 
+		fill: "#FFFFFFFF",
+		children: [
+			new BABYLON.Text2D("Move", { marginAlignment: "h: center, v:center", defaultFontColor: blackColor})
+		]}),
+
+	//moveButton.margin.topPixels = 10;
+	//moveButton.padding.topPercentage = 10;
+
+	moveButton.margin.bottomPercentage = 0.9;
+	moveButton.margin.leftPercentage = 0.25;
 	
+	attackButton = new BABYLON.Rectangle2D({
+		parent: panelGUI,
+		id: "attack_button",
+		width: 110,
+		height: 50,
+		fill: "#FFFFFFFF",
+		children: [
+			new BABYLON.Text2D("Attack", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
+		]
+	});
+
+	attackButton.margin.bottomPercentage = 0.8;
+	attackButton.margin.leftPercentage = 0.25;
+	
+	unitSpecialButton = new BABYLON.Rectangle2D({
+		parent: panelGUI,
+		id: "unit_special_button",
+		width: 110,
+		height: 50,
+		fill: "#FFFFFFFF",
+		children: [
+			new BABYLON.Text2D("Unit Special", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
+		]
+	});
+
+	unitSpecialButton.margin.bottomPercentage = 0.7;
+	unitSpecialButton.margin.leftPercentage = 0.25;
+
+	closeButton = new BABYLON.Rectangle2D({
+		parent: panelGUI,
+		id: "close_panel_button",
+		width: 110,
+		height: 50,
+		fill: "#FFFFFFFF",
+		children: [
+			new BABYLON.Text2D("Close", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
+		]
+	});
+
+	closeButton.margin.bottomPercentage = 0.1;
+	closeButton.margin.leftPercentage = 0.25;
 	//panelGUI.domElement.style.width = "400px";
 	//panelGUI.domElement.id = "actionPanel";
 
