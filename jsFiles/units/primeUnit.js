@@ -18,11 +18,29 @@ function primeUnit(team, startPosition, unitName) {
 	this.buff = null;
 	this.moveSpaces = 2;
 	this.isCurrentlySelected = false;
+	this.typeOfUnit = "test";
 
 	this.getTeam = function getTeam() {
 
 		return this.team;
 	}
+
+	this.getHealth = function getHealth() {
+		return this.health;
+	}
+
+	this.setHealth = function setHealth(health) {
+		this.health = health;
+	}
+
+	this.getUnitDamage = function getUnitDamage() {
+		return this.attackDamage;
+	}
+
+	this.getTypeOfUnit = function getTypeOfUnit() {
+		return this.typeOfUnit;
+	}
+
 
 	this.moveUnitCheck = function moveUnitCheck(destination) {
 

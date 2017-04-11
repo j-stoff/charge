@@ -74,6 +74,27 @@ function createGUIActionPanel(player, unit) {
 	var unitSpecialButton;
 	var closeButton;
 	var blackColor = new BABYLON.Color4(0,0,0, 1);
+
+
+	var messagePanel;
+	var unitHealthMessage;
+	var unitTypeMessage;
+	var unitDamageMessage;
+	var unithasActionMessage;
+	var unitTeamMessage;
+	var unitSpecialDescriptionMessage;
+
+	var unitHealhText;
+	var unitTypeText;
+	var unitDamageText;
+	var unithasActionText;
+	var unitTeamText;
+	var unitSpecialDescriptionText;
+	//var unitRangeMessage; NOT YET IMPLEMENTED!!!!!!!
+
+
+
+
 	// var canvas = new BABYLON.ScreenSpaceCanvas2D(scene, { 
 	//id: "ScreenCanvas",  backgroundFill: "#40404040", backgroundRoundRadius: 10 });
 
@@ -178,7 +199,43 @@ function createGUIActionPanel(player, unit) {
 	closeButton.margin.leftPercentage = 0.25;
 	//panelGUI.domElement.style.width = "400px";
 	//panelGUI.domElement.id = "actionPanel";
+	unitHealthMessage = "Health: " + unit.getHealth();
+	unitTeamMessage = "Team: " + unit.getTeam();
+	unitTypeMessage = "Class: " + unit.getTypeOfUnit();
+	unitDamageMessage = "Damage: " + unit.getUnitDamage();
+	
+	if (unit.hasActions()) {
+		unithasActionMessage = "Unit can still move";
+	} else {
+		unithasActionMessage = "No more actions this turn";
+	}
 
+	unitSpecialDescriptionMessage = unit.unitSpecial();
+
+
+
+	unitHealhText = new BABYLON.Text2D(unitHealthMessage, {marginAlignment: "h: center, v: center", defaultFontColor: blackColor});
+	unitTeamText = new BABYLON.Text2D(unitTeamMessage, {defaultFontColor: blackColor} );
+	unitTypeText = new BABYLON.Text2D(unitTypeMessage, {defaultFontColor: blackColor} );
+	unitDamageText = new BABYLON.Text2D(unitDamageMessage, {defaultFontColor: blackColor});
+	unithasActionText = new BABYLON.Text2D(unithasActionMessage, {defaultFontColor: blackColor});
+	unitSpecialDescriptionText = new BABYLON.Text2D(unitSpecialDescriptionMessage, {defaultFontColor: blackColor});
+
+
+	messagePanel = new BABYLON.Rectangle2D({
+		parent: panelGUI,
+		id: "unit_stats_panel",
+		width: 300,
+		height: 200,
+		fill: "#FFFFFFFF",
+		children: [
+			unitHealhText,
+			unitTeamText
+		]
+	});
+
+	messagePanel.margin.bottomPercentage = 0.3;
+	messagePanel.margin.leftPercentage = 0.08;
 
 
 
