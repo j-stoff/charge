@@ -74,6 +74,7 @@ function createGUIActionPanel(player, unit) {
 	var unitSpecialButton;
 	var closeButton;
 	var blackColor = new BABYLON.Color4(0,0,0, 1);
+	var index;
 
 
 	var messagePanel;
@@ -91,6 +92,7 @@ function createGUIActionPanel(player, unit) {
 	var unitTeamText;
 	var unitSpecialDescriptionText;
 	//var unitRangeMessage; NOT YET IMPLEMENTED!!!!!!!
+	var textArray = [0];
 
 
 
@@ -213,14 +215,19 @@ function createGUIActionPanel(player, unit) {
 	unitSpecialDescriptionMessage = unit.unitSpecial();
 
 
-
-	unitHealhText = new BABYLON.Text2D(unitHealthMessage, {marginAlignment: "h: center, v: center", defaultFontColor: blackColor});
+	unitHealhText = new BABYLON.Text2D(unitHealthMessage, {defaultFontColor: blackColor});
 	unitTeamText = new BABYLON.Text2D(unitTeamMessage, {defaultFontColor: blackColor} );
 	unitTypeText = new BABYLON.Text2D(unitTypeMessage, {defaultFontColor: blackColor} );
 	unitDamageText = new BABYLON.Text2D(unitDamageMessage, {defaultFontColor: blackColor});
 	unithasActionText = new BABYLON.Text2D(unithasActionMessage, {defaultFontColor: blackColor});
-	unitSpecialDescriptionText = new BABYLON.Text2D(unitSpecialDescriptionMessage, {defaultFontColor: blackColor});
+	unitSpecialDescriptionText = new BABYLON.Text2D(unitSpecialDescriptionMessage, {defaultFontColor: blackColor, wordwrap: true});
 
+	textArray.push(unitHealhText);
+	textArray.push(unitTeamText);
+	textArray.push(unitTypeText);
+	textArray.push(unitDamageText);
+	textArray.push(unithasActionText);
+	textArray.push(unitSpecialDescriptionText);
 
 	messagePanel = new BABYLON.Rectangle2D({
 		parent: panelGUI,
@@ -230,7 +237,11 @@ function createGUIActionPanel(player, unit) {
 		fill: "#FFFFFFFF",
 		children: [
 			unitHealhText,
-			unitTeamText
+			unitTeamText,
+			unitTypeText,
+			unitDamageText,
+			unithasActionText,
+			unitSpecialDescriptionText
 		]
 	});
 
@@ -238,6 +249,15 @@ function createGUIActionPanel(player, unit) {
 	messagePanel.margin.leftPercentage = 0.08;
 
 
+	//unitHealhText.margin.leftPercentage = 0.4;
+
+	//alignWithinGUI(unitHealhText, 0.1, 0.1);
+
+	
+	for (index = 1; index < textArray.length; index++) {
+		alignWithinGUI(textArray[index], 0.1, 1 - (0.1 * index));
+	}
+	
 
 	console.log("Gui made");
 
@@ -255,6 +275,19 @@ function createGUIActionPanel(player, unit) {
 
 	var panel = new CASTORGUI.GUIPanel("test", {x:5, y:10, w:50 h:50, overflow: "hidden"}, guiSystem);
 	*/
+}
+
+/*
+	This function is designed to take an object in and adjust the alignment within a parent object.
+	@object the object being aligned
+	@horizontalAlignment the horizontal adjustment, aligned from the left (values 0 to 1)
+	@verticalAlignment the vertical adjustment, aligned from the bottom (values 0 to 1)
+*/
+function alignWithinGUI(object, horizontalAlignment, verticalAlignment) {
+	object.margin.leftPercentage = horizontalAlignment;
+	object.margin.bottomPercentage = verticalAlignment;
+
+
 }
 
 
