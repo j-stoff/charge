@@ -44,11 +44,11 @@ function createPanel(player, unit) {
 	//unit.getTeam()
 
 	//If player and team are the same, create action panel
-	if (true) {
-		createGUIActionPanel(player, unit);
+	if (false) {
+		createGUIActionPanel(player, unit, true);
 	} else {
 		//create basic panel
-		createSimplePanel(player, unit);
+		createGUIActionPanel(player, unit, false);
 	}
 	
 }
@@ -59,10 +59,11 @@ function createPanel(player, unit) {
 	for the player to select the appropriate action and cascade events forward
 	in gameplay.
 	This should be used if and only if the player and unit are on the same team.
-	@param player is the player selecting the unit
-	@param unit is the unit being selected
+	@param player is the player selecting the unit.
+	@param unit is the unit being selected.
+	@param actionButtonsPresent sets the action buttons to be visible or not.
 */
-function createGUIActionPanel(player, unit) {
+function createGUIActionPanel(player, unit, actionButtonsPresent) {
 	console.log("This far");
 
 	var scene = getScene();
@@ -148,6 +149,7 @@ function createGUIActionPanel(player, unit) {
 		width: 110, 
 		height: 50, 
 		fill: "#FFFFFFFF",
+		isVisible: actionButtonsPresent,
 		children: [
 			new BABYLON.Text2D("Move", { marginAlignment: "h: center, v:center", defaultFontColor: blackColor})
 		]}),
@@ -164,6 +166,7 @@ function createGUIActionPanel(player, unit) {
 		width: 110,
 		height: 50,
 		fill: "#FFFFFFFF",
+		isVisible: actionButtonsPresent,
 		children: [
 			new BABYLON.Text2D("Attack", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
 		]
@@ -178,6 +181,7 @@ function createGUIActionPanel(player, unit) {
 		width: 110,
 		height: 50,
 		fill: "#FFFFFFFF",
+		isVisible: actionButtonsPresent,
 		children: [
 			new BABYLON.Text2D("Unit Special", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
 		]
@@ -286,7 +290,6 @@ function createGUIActionPanel(player, unit) {
 function alignWithinGUI(object, horizontalAlignment, verticalAlignment) {
 	object.margin.leftPercentage = horizontalAlignment;
 	object.margin.bottomPercentage = verticalAlignment;
-
 
 }
 
