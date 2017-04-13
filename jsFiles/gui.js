@@ -44,7 +44,7 @@ function createPanel(player, unit) {
 	//unit.getTeam()
 
 	//If player and team are the same, create action panel
-	if (false) {
+	if (true) {
 		createGUIActionPanel(player, unit, true);
 	} else {
 		//create basic panel
@@ -94,6 +94,10 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 	var unitSpecialDescriptionText;
 	//var unitRangeMessage; NOT YET IMPLEMENTED!!!!!!!
 	var textArray = [0];
+	var panelButtonsArray = [];
+
+	var highlightColor = BABYLON.Canvas2D.GetBrushFromString("#6666FFFF");
+	var buttonColor = BABYLON.Canvas2D.GetBrushFromString("#FFFFFFFF");
 
 
 
@@ -138,7 +142,7 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 		height: 750,
 		border: "#321BE5FF",
 		borderThickness: 5,
-		fill: "#5AFCDCFF"
+		fill: "#D9FFB3FF"
 	});
 
 
@@ -159,6 +163,8 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 
 	moveButton.margin.bottomPercentage = 0.9;
 	moveButton.margin.leftPercentage = 0.25;
+
+	panelButtonsArray.push(moveButton);
 	
 	attackButton = new BABYLON.Rectangle2D({
 		parent: panelGUI,
@@ -174,6 +180,8 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 
 	attackButton.margin.bottomPercentage = 0.8;
 	attackButton.margin.leftPercentage = 0.25;
+
+	panelButtonsArray.push(attackButton);
 	
 	unitSpecialButton = new BABYLON.Rectangle2D({
 		parent: panelGUI,
@@ -190,6 +198,8 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 	unitSpecialButton.margin.bottomPercentage = 0.7;
 	unitSpecialButton.margin.leftPercentage = 0.25;
 
+	panelButtonsArray.push(unitSpecialButton);
+
 	closeButton = new BABYLON.Rectangle2D({
 		parent: panelGUI,
 		id: "close_panel_button",
@@ -203,6 +213,36 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 
 	closeButton.margin.bottomPercentage = 0.1;
 	closeButton.margin.leftPercentage = 0.25;
+
+	panelButtonsArray.push(closeButton);
+
+	for (index = 0; index < panelButtonsArray.length; index += 1) {
+		onHoverColorChange(panelButtonsArray[index], highlightColor, buttonColor);
+	}
+
+	//onHoverColorChange(closeButton, highlightColor, buttonColor);
+	/*
+	//To change color back, loaded first
+	closeButton.actionManager.registerAction(
+		new BABYLON.SetValueAction(
+			BABYLON.ActionManager.OnPointerOutTrigger,
+			closeButton,
+			"fill",
+			buttonColor
+			)
+
+		);
+
+	//Test for on hover change color
+	closeButton.actionManager.registerAction(
+		new BABYLON.SetValueAction(
+			BABYLON.ActionManager.OnPointerOverTrigger,
+			closeButton,
+			"fill",
+			highlightColor
+			)
+		);
+	*/
 	//panelGUI.domElement.style.width = "400px";
 	//panelGUI.domElement.id = "actionPanel";
 	unitHealthMessage = "Health: " + unit.getHealth();
@@ -290,6 +330,38 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 function alignWithinGUI(object, horizontalAlignment, verticalAlignment) {
 	object.margin.leftPercentage = horizontalAlignment;
 	object.margin.bottomPercentage = verticalAlignment;
+
+}
+
+/*
+	This function is create an on hover color change for the selected element.
+	@param element the object which will change color
+	@param highlight the color to change to (Color brush for fill)
+	@param originalColor is the default color (Color brush for fill)
+*/
+function onHoverColorChange(element, highlight, originalColor) {
+	//The original color
+	element.actionManager.registerAction(
+		new BABYLON.SetValueAction(
+			BABYLON.ActionManager.OnPointerOutTrigger,
+			element,
+			"fill",
+			originalColor
+		)
+
+	);
+
+
+	//Highlight color
+	element.actionManager.registerAction(
+		new BABYLON.SetValueAction(
+			BABYLON.ActionManager.OnPointerOverTrigger,
+			element,
+			"fill",
+			highlight
+		)
+
+	);
 
 }
 
