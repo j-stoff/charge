@@ -115,12 +115,6 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
         ]
     });
 	*/
-	var oldgui = document.querySelector("#datGUI");
-	if (oldgui != null)
-	{
-		console.log("Old GUI removed");
-		oldgui.remove();
-	}
 	/*
 	group = new BABYLON.Group2D({
 		parent: frame, id: "action_panel", layoutEngine: "StackPanel", x: 50, y: 100, children: [
@@ -140,8 +134,9 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 		y: 100,
 		width: 350,
 		height: 750,
-		border: "#321BE5FF",
-		borderThickness: 5,
+		roundRadius: 15,
+		border: "#000000FF",
+		borderThickness: 10,
 		fill: "#D9FFB3FF"
 	});
 
@@ -154,6 +149,9 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 		height: 50, 
 		fill: "#FFFFFFFF",
 		isVisible: actionButtonsPresent,
+		border: "#476b6bFF",
+		borderThickness: 5,
+		roundRadius: 10,
 		children: [
 			new BABYLON.Text2D("Move", { marginAlignment: "h: center, v:center", defaultFontColor: blackColor})
 		]}),
@@ -164,6 +162,8 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 	moveButton.margin.bottomPercentage = 0.9;
 	moveButton.margin.leftPercentage = 0.25;
 
+	makeMoveAction(moveButton, unit);
+
 	panelButtonsArray.push(moveButton);
 	
 	attackButton = new BABYLON.Rectangle2D({
@@ -173,6 +173,9 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 		height: 50,
 		fill: "#FFFFFFFF",
 		isVisible: actionButtonsPresent,
+		border: "#476b6bFF",
+		borderThickness: 5,
+		roundRadius: 10,
 		children: [
 			new BABYLON.Text2D("Attack", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
 		]
@@ -190,6 +193,9 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 		height: 50,
 		fill: "#FFFFFFFF",
 		isVisible: actionButtonsPresent,
+		border: "#476b6bFF",
+		borderThickness: 5,
+		roundRadius: 10,
 		children: [
 			new BABYLON.Text2D("Unit Special", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
 		]
@@ -206,6 +212,9 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 		width: 110,
 		height: 50,
 		fill: "#FFFFFFFF",
+		border: "#476b6bFF",
+		borderThickness: 5,
+		roundRadius: 10,
 		children: [
 			new BABYLON.Text2D("Close", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
 		]
@@ -220,29 +229,8 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 		onHoverColorChange(panelButtonsArray[index], highlightColor, buttonColor);
 	}
 
-	//onHoverColorChange(closeButton, highlightColor, buttonColor);
-	/*
-	//To change color back, loaded first
-	closeButton.actionManager.registerAction(
-		new BABYLON.SetValueAction(
-			BABYLON.ActionManager.OnPointerOutTrigger,
-			closeButton,
-			"fill",
-			buttonColor
-			)
+	closePanel(closeButton, panelGUI);
 
-		);
-
-	//Test for on hover change color
-	closeButton.actionManager.registerAction(
-		new BABYLON.SetValueAction(
-			BABYLON.ActionManager.OnPointerOverTrigger,
-			closeButton,
-			"fill",
-			highlightColor
-			)
-		);
-	*/
 	//panelGUI.domElement.style.width = "400px";
 	//panelGUI.domElement.id = "actionPanel";
 	unitHealthMessage = "Health: " + unit.getHealth();
@@ -279,6 +267,9 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 		width: 300,
 		height: 200,
 		fill: "#FFFFFFFF",
+		border: "#476b6bFF",
+		borderThickness: 5,
+		roundRadius: 20,
 		children: [
 			unitHealhText,
 			unitTeamText,
@@ -290,7 +281,7 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 	});
 
 	messagePanel.margin.bottomPercentage = 0.3;
-	messagePanel.margin.leftPercentage = 0.08;
+	messagePanel.margin.leftPercentage = 0.05;
 
 
 	//unitHealhText.margin.leftPercentage = 0.4;
@@ -299,7 +290,7 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 
 	
 	for (index = 1; index < textArray.length; index++) {
-		alignWithinGUI(textArray[index], 0.1, 1 - (0.1 * index));
+		alignWithinGUI(textArray[index], 0.1, 1 - (0.15 * index));
 	}
 	
 
@@ -319,6 +310,7 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 
 	var panel = new CASTORGUI.GUIPanel("test", {x:5, y:10, w:50 h:50, overflow: "hidden"}, guiSystem);
 	*/
+
 }
 
 /*
@@ -365,6 +357,30 @@ function onHoverColorChange(element, highlight, originalColor) {
 
 }
 
+function makeMoveAction(moveButton, unit) {
+	moveButton.actionManager.registerAction(
+		new BABYLON.ExecuteCodeAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			function(){selectUnit(unit);}
+		)
+	);
+
+	console.log("We making stuff move");
+
+}
+
+
+function closePanel(button, panel) {
+	button.actionManager.registerAction(
+		new BABYLON.SetValueAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			panel,
+			"levelVisible",
+			false
+		)
+	);
+
+}
 
 
 /*

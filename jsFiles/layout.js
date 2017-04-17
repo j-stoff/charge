@@ -327,6 +327,10 @@ function animationMove(unit, destination){
 	}
 
 
+	unit.setActions(unit.getActions() - 1);
+
+	createActionPanel(unit);
+
 }
 
 
@@ -509,29 +513,20 @@ function createMovableSpace(unit) {
 	//Double check possible locations, verify that it is possible to move there
 
 	//If the unit was previously selected and clicked again, change the squares back
+	/*
 	if (unit.isCurrentlySelected) {
 		//Change squares
 
-		//toBoxOriginalColor(arrayOfBoxes);
-		/*
-		for (index = 0; index < arrayOfBoxes.length; index += 1) {
-			zeroObject(arrayOfBoxes[index]);
-		}
-		*/
-		/*
-		for (index = 0; index < arrayOfBoxes.length; index += 1) {
-			console.log(arrayOfBoxes[index].material.diffuseColor + arrayOfBoxes[index].position);
-		}
-		*/
+
 		unit.setIsCurrentlySelected(false);
 		return;
 	}
-
+	*/
 	//Change unit to selected
 	if (!unit.isCurrentlySelected) {
 		unit.setIsCurrentlySelected(true);
 	}
-
+	
 
 	for (index = 0; index < arrayOfBoxes.length; index += 1){
 		highlightAvailablePositions(arrayOfBoxes[index], moveColor);
@@ -553,10 +548,32 @@ function createMovableSpace(unit) {
 
 	//Set unit to -1 actions
 
-
 }
 
 
+
+var changeUnitActions = function (unit) {
+	var mesh = unit.visualDisplay;
+
+	mesh.actionManager.registerAction(
+		new BABYLON.ExecuteCodeAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			function() {unit.setActions(unit.getActions() - 1);}
+		)
+
+	);
+
+	/*
+	mesh.actionManager.registerAction(
+		new BABYLON.SetValueAction(
+			BABYLON.ActionManager.OnPickTrigger,
+			unit,
+			"actions",
+			(unit.getActions() - 1)
+		)
+	);
+	*/
+}
 
 
 var selectUnit = function (unit) {
@@ -598,7 +615,11 @@ var selectUnit = function (unit) {
 			)
 		);
 
+	if (unit.hasActions()) {
+		createMovableSpace(unit);	
+	}
 
+	/*
 	if (unit.hasActions()) {
 		
 		//ExecuteCodeAction(trigger, func, condition)
@@ -612,7 +633,7 @@ var selectUnit = function (unit) {
 		);
 
 	}
-
+	*/
 
 }
 
