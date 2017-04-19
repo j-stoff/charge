@@ -18,13 +18,30 @@
 		<script src="../jsFiles/gui.js" language="javascript" type="text/javascript"></script>
 		<script src="../jsFiles/CastorGUI-1.5/dist/castorGUI.min.js" language="javascript" type="text/javascript"></script>
 		<script src="../jsFiles/canvas2D/src/lib.d.ts" type="text/javascript"></script>
+		<script src="../jsFiles/player.js" language="javascript" type="text/javascript"></script>
+		<script src="../jsFiles/initializeGame.js" type="text/javascript"></script>
 
 
-		<script src="../jsFiles/layout.js" language="javascript" type="text/javascript"></script>
+
+		<script src="../jsFiles/layout.js" language="javascript" type="text/javascript">
+		</script>
+
+
 	</head>
 
 	<body>
+
+		<div id="form">
+			<input id="player1" type="text" placeholder="Enter Name of Player 1" name="player1" />
+			<input id="player2" type="text" placeholder="Enter Name of Player 2" name="player2">
+			<input type="submit" value="Start the game!" onclick="forward();">
+		</div>
+
+
 		<canvas id="canvas"></canvas>
+
+		<!--
 		<script>startGame();</script>
+		-->
 	</body>
 </html>

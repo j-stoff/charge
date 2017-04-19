@@ -7,6 +7,7 @@
 */
 
 var unitsOnBoard = [];
+var players = [];
 
 
 /*
@@ -14,7 +15,6 @@ var unitsOnBoard = [];
 */
 var testFunction = function testFunction() {
 	console.log("TEST FUNCTION SUCCESSFUL");
-
 }
 
 /*

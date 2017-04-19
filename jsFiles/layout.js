@@ -220,7 +220,7 @@ function makePhysicalBodyRed () {
 
 	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
 
-	body.position = new BABYLON.Vector3(0, 0, 1.5);
+	body.position = unit.position;
 	var mat = new BABYLON.StandardMaterial("mat", scene);
 
 	mat.diffuseColor = new BABYLON.Color3(255, 0, 0);
@@ -787,7 +787,7 @@ function initializeDisplay() {
 	//selectUnit(unitsOnBoard[1]);
 	//selectUnit(unitsOnBoard[0]);
 	
-	animationMove(unitsOnMap[0],mockLocation);
+	//animationMove(unitsOnMap[0],mockLocation);
 	//animationMove(unitsOnMap[0], [4,4]);
 
 	//animationMove(unitsOnMap[1], diffLocation);
