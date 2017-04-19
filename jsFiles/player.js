@@ -5,11 +5,28 @@
 
 */
 
-var Player = function(name, color) {
+var Player = function(name, team) {
 
 	this.name = name;
-	this.color = color;
+	this.team = team;
 
 	this.pieces = [];
+
+	this.getName = function getName() {
+		return this.name;
+	}
+
+	this.getTeam = function getTeam(){
+		return this.team;
+	}
+
+	this.getPieces = function getPieces() {
+
+		return this.pieces;
+	}
+
+	this.setPieces = function setPieces(listOfPieces) {
+		this.pieces = listOfPieces;
+	}
 
 }

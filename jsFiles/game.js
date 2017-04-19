@@ -74,6 +74,13 @@ function createInitialUnitPositionsRed() {
 
 function gameSetUp() {
 	"use strict";
+	var player1Name = document.getElementById("player1Name").value;
+	var player2Name = document.getElementById("player2Name").value;
+
+	var player1 = new Player(player1Name, "red");
+	var player2 = new Player(player2Name, "blue");
+
+
 	initializeDisplay();
 
 	//need a method to create visuals for units
