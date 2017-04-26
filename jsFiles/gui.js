@@ -64,8 +64,6 @@ function createPanel(player, unit) {
 	@param actionButtonsPresent sets the action buttons to be visible or not.
 */
 function createGUIActionPanel(player, unit, actionButtonsPresent) {
-	console.log("This far");
-
 	var scene = getScene();
 	var frame;
 	var group;
@@ -294,7 +292,6 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 	}
 	
 
-	console.log("Gui made");
 
 	//Add player.getTeam()
 	/* OLD STUFF - CASTOR GUI
@@ -365,7 +362,6 @@ function makeMoveAction(moveButton, unit) {
 		)
 	);
 
-	console.log("We making stuff move");
 
 }
 
@@ -383,12 +379,47 @@ function closePanel(button, panel) {
 }
 
 
-/*
-	This panel is simply to display infortmation about the unit selected.
-	Only used if the player and unit are not the same team.
-	@param player is the player selecting the unit
-	@param unit is the unit being selected
-*/
-function createSimplePanel(player, unit) {
+function playerNamePanel(player) {
+
+	if (!guiMade) {
+		makeGUISystem();
+	}
+
+	var frame;
+	var namePanel;
+	var blackColor = new BABYLON.Color4(0,0,0, 1);
+	var playerName =  "";
+	var fillColor;
+
+	frame = new BABYLON.Rectangle2D({ parent: gui, id: "namePanelFrame", size: null, });
+
+
+	playerName += player.getName();
+
+	if (player.getTeam === "red") {
+		fillColor = "#FF0505FF";
+	} else {
+		fillColor = "#0519FFFF";
+	}
+
+	namePanel = new BABYLON.Rectangle2D({
+		parent: frame,
+		id: "namePanel",
+		x: 0,
+		y: 0,
+		width: 300,
+		height: 100,
+		roundRadius: 12,
+		fill: fillColor,
+		childred: [
+			new BABYLON.Text2D("test", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
+		]
+	});
+
+	
+	console.log(playerName);
+
+	return namePanel;
+
 
 }

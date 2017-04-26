@@ -7,7 +7,6 @@ function removeForm() {
 	var form = document.getElementById("form");
 
 	form.style.visibility = "hidden";
-	form.style.backgroundColor  = "blue";
 	form.style.height = "0";
 }
 

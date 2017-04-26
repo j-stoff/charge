@@ -80,10 +80,19 @@ function gameSetUp() {
 	var player1 = new Player(player1Name, "red");
 	var player2 = new Player(player2Name, "blue");
 
+	var panel1;
+	var panel2;
+
 
 	initializeDisplay();
 
+	panel1 = playerNamePanel(player1);
+	panel2 = playerNamePanel(player2);
+
 	//need a method to create visuals for units
+
+	panel2.margin.leftPercentage = 0.5;
+	console.log(panel2);
 
 }
 
