@@ -129,7 +129,7 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 		id: "actionPanel",
 		layoutEngine: "action_panel",
 		x: 50,
-		y: 100,
+		y: 50,
 		width: 350,
 		height: 750,
 		roundRadius: 15,
@@ -379,7 +379,7 @@ function closePanel(button, panel) {
 }
 
 
-function playerNamePanel(player) {
+function playerNamePanel(player, initialPositionX, initialPositionY) {
 
 	if (!guiMade) {
 		makeGUISystem();
@@ -396,7 +396,7 @@ function playerNamePanel(player) {
 
 	playerName += player.getName();
 
-	if (player.getTeam === "red") {
+	if (player.getTeam() === "red") {
 		fillColor = "#FF0505FF";
 	} else {
 		fillColor = "#0519FFFF";
@@ -405,19 +405,22 @@ function playerNamePanel(player) {
 	namePanel = new BABYLON.Rectangle2D({
 		parent: frame,
 		id: "namePanel",
-		x: 0,
-		y: 0,
+		x: initialPositionX,
+		y: initialPositionY,
 		width: 300,
 		height: 100,
 		roundRadius: 12,
-		fill: fillColor,
-		childred: [
-			new BABYLON.Text2D("test", {marginAlignment: "h: center, v: center", defaultFontColor: blackColor})
-		]
+		fill: fillColor
 	});
+
+	var playerInformation = new BABYLON.Text2D(playerName, {parent: namePanel, marginAlignment: "h: center, v: center", 
+		defaultFontColor: blackColor});
 
 	
 	console.log(playerName);
+
+
+	namePanel.margin.leftPercentage = 0.2;
 
 	return namePanel;
 

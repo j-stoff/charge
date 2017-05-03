@@ -10,6 +10,9 @@ var unitsOnBoard = [];
 var players = [];
 
 
+
+
+
 /*
 	This function simply logs to the console that a function call was successful
 */
@@ -24,7 +27,6 @@ function getUnitsOnBoard() {
 
 	return unitsOnBoard;
 }
-
 
 
 /*
@@ -74,6 +76,7 @@ function createInitialUnitPositionsRed() {
 
 function gameSetUp() {
 	"use strict";
+	var canvas;
 	var player1Name = document.getElementById("player1Name").value;
 	var player2Name = document.getElementById("player2Name").value;
 
@@ -86,8 +89,13 @@ function gameSetUp() {
 
 	initializeDisplay();
 
-	panel1 = playerNamePanel(player1);
-	panel2 = playerNamePanel(player2);
+	canvas = getCanvas();
+
+	console.log("Canvas width: " + canvas.width);
+	console.log("Canvas height: " + canvas.height);
+
+	panel1 = playerNamePanel(player1, (canvas.width * 0.02), (canvas.height * 0.88));
+	panel2 = playerNamePanel(player2, (canvas.width * 0.82), (canvas.height * 0.88));
 
 	//need a method to create visuals for units
 
