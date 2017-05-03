@@ -15,7 +15,8 @@ var number;
 var physicalGrid;
 var unitsOnMap;
 var gridMap;
-var physicalGrid
+var physicalGrid;
+var boxesChangedForMove;
 //var unitsOnMap;
 
 
@@ -121,19 +122,16 @@ function colorChanger(coordinates) {
 	return color;
 }
 
-function colorPicker(coordinates) {
+function colorPicker(box) {
 	"use strict";
-	var color;
-	var xCoordinate = coordinates[0];
-	var yCoordinate = coordinates[1];
+	var xCoordinate = box.position.x;
+	var yCoordinate = box.position.y;
 
 	if ( (xCoordinate % 2) === (yCoordinate % 2) ) {
-		color = BABYLON.Color3.White();
+		return BABYLON.Color3.Black();
 	} else {
-		color =  BABYLON.Color3.Black();
+		return BABYLON.Color3.White();
 	}
-
-	return color;
 }
 
 function createPhysicalGrid() {
@@ -328,6 +326,12 @@ function animationMove(unit, destination){
 
 
 	unit.setActions(unit.getActions() - 1);
+	var box;
+
+	for (var index = 0; index < boxesChangedForMove.length; index++) {
+		box = boxesChangedForMove[index]
+		highlightAvailablePositions(box, colorPicker(box));
+	}
 
 	createActionPanel(unit);
 
@@ -342,6 +346,8 @@ function toBoxOriginalColor(boxes) {
 	var boxCoordinates = [];
 	var index;
 	var colorMaterial = new BABYLON.StandardMaterial("colorMaterial", scene);
+	var tempBox;
+	var newBox;
 
 	
 	for (index = 0; index < boxes.length; index += 1) {
@@ -355,6 +361,13 @@ function toBoxOriginalColor(boxes) {
 
 	}
 	
+	/*
+	for (index = 0; index < boxes.length; index += 1) {
+		console.log("hi");
+		console.log(boxes[index].material.emissiveColor + boxes[index].position);
+	}
+	*/
+
 
 }
 
@@ -411,7 +424,9 @@ function makeBoxesActionMove(singleBox, unit, boxNumberOrigin){
 				BABYLON.ActionManager.OnPickTrigger,
 				function(){animationMove(unit, singleBox.position);
 
-					toBoxOriginalColor(listOfBoxObjects);
+					//toBoxOriginalColor(listOfBoxObjects);
+
+					
 
 					var index;
 					for (index = 0; index < listOfBoxObjects.length; index += 1) {
@@ -497,6 +512,7 @@ function createMovableSpace(unit) {
 
 	boxColorsMap = generateBoxesMap(arrayOfBoxes);
 
+	boxesChangedForMove = arrayOfBoxes;
 
 
 	//Get box at specific position
