@@ -44,7 +44,7 @@ function createPanel(player, unit) {
 	//unit.getTeam()
 
 	//If player and team are the same, create action panel
-	if (true) {
+	if ("red" === unit.getTeam()) {
 		createGUIActionPanel(player, unit, true);
 	} else {
 		//create basic panel
@@ -273,8 +273,7 @@ function createGUIActionPanel(player, unit, actionButtonsPresent) {
 			unitTeamText,
 			unitTypeText,
 			unitDamageText,
-			unithasActionText,
-			unitSpecialDescriptionText
+			unithasActionText
 		]
 	});
 
@@ -410,7 +409,10 @@ function playerNamePanel(player, initialPositionX, initialPositionY) {
 		width: 300,
 		height: 100,
 		roundRadius: 12,
-		fill: fillColor
+		border: fillColor,
+		borderThickness: 5,
+		fill: "#FFFFFFFF"
+
 	});
 
 	var playerInformation = new BABYLON.Text2D(playerName, {parent: namePanel, marginAlignment: "h: center, v: center", 

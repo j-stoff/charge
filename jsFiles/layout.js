@@ -182,26 +182,38 @@ function makePhysicalBodyBlue () {
 	"use strict";
 
 	//scene = new BABYLON.Scene(engine);
-
+	var index;
 	var unitList = createInitialUnitPositionsBlue();
-	var unit = unitList[0];
+	var unit;
+	var mat;
+	var body;
+
+	for (index = 0; index < unitList.length; index += 1) {
+		unit = unitList[index];
+		
+		body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
+
+		body.position = unit.position;
+
+		mat = new BABYLON.StandardMaterial("mat", scene);
+
+		mat.diffuseColor = new BABYLON.Color3(0,0, 255);
+
+		body.material = mat;
+
+		unit.setVisualDisplay(body);
+
+		unitsOnMap.push(unit);
+	}
+
+
 	//var position = unit.position;
 
-	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
 
-	body.position = unit.position;
-
-	var mat = new BABYLON.StandardMaterial("mat", scene);
-
-	mat.diffuseColor = new BABYLON.Color3(0,0, 255);
-
-	body.material = mat;
-
-	unit.setVisualDisplay(body);
 
 	renderScene();
 
-	unitsOnMap.push(unit);
+
 }
 
 
@@ -210,27 +222,34 @@ function makePhysicalBodyRed () {
 
 	"use strict";
 	//scene = new BABYLON.Scene(engine);
-
+	var index;
 	var unitList = createInitialUnitPositionsRed();
-	var unit = unitList[0];
+	var unit;
+	var body;
+	var mat;
 	//var position = unit.position;
+	for (index = 0; index < unitList.length; index += 1) {
+		unit = unitList[index];
+
+		body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
+
+		body.position = unit.position;
+		mat = new BABYLON.StandardMaterial("mat", scene);
+
+		mat.diffuseColor = new BABYLON.Color3(255, 0, 0);
+
+		body.material = mat;
+
+		unit.setVisualDisplay(body);
+
+		unitsOnMap.push(unit);
+	}
 
 
-	var body = BABYLON.Mesh.CreateSphere("body", 0.5, 1, scene);
-
-	body.position = unit.position;
-	var mat = new BABYLON.StandardMaterial("mat", scene);
-
-	mat.diffuseColor = new BABYLON.Color3(255, 0, 0);
-
-	body.material = mat;
-
-	unit.setVisualDisplay(body);
 
 	renderScene();
 
 
-	unitsOnMap.push(unit);
 }
 
 
@@ -785,11 +804,14 @@ function initializeDisplay() {
 
 	createPhysicalGrid();
 
-	var unitsOnBoard = getUnitsOnBoard();
+
+
+
 
 	makePhysicalBodyRed();
 	makePhysicalBodyBlue();
-
+	var unitsOnBoard = getUnitsOnBoard();
+	console.log(unitsOnBoard);
 	
 	for (counter = 1; counter < physicalGrid.length; counter += 1) {
 		selectBoxOnBoard(physicalGrid[counter]);

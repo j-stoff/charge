@@ -18,7 +18,7 @@ function primeUnit(team, startPosition, unitName) {
 	this.buff = null;
 	this.moveSpaces = 2;
 	this.isCurrentlySelected = false;
-	this.typeOfUnit = "test";
+	this.typeOfUnit = "Infantry";
 
 	this.getTeam = function getTeam() {
 

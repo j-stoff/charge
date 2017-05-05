@@ -29,6 +29,16 @@ function getUnitsOnBoard() {
 }
 
 
+function makeUnit(team, position, number) {
+	var unitName = team + "_" + number;
+
+	var unit = new primeUnit(team, position, unitName);
+
+	unitsOnBoard.push(unit);
+
+	return unit;
+}
+
 /*
 	This function initilizes the unit objects and returns them to be used elsewhere.
 */
@@ -38,9 +48,17 @@ function createInitialUnitPositionsBlue() {
 	var unitArray = [];
 	var unitName = "BlueSphere1";
 	var testUnitBlue = new primeUnit("blue", position, unitName)
+	var index;
+	var unitCatch;
 
 	unitArray.push(testUnitBlue);
 	unitsOnBoard.push(testUnitBlue);
+
+	for (index = 2; index <= 10; index += 1) {
+		position = new BABYLON.Vector3(10, index, 1.5);
+		unitCatch = makeUnit("blue", position, index);
+		unitArray.push(unitCatch);
+	}
 
 	return unitArray;
 }
@@ -57,14 +75,25 @@ function createInitialUnitPositionsRed() {
 	var unitArray = [];
 	var unitName = "RedSphere1";
 	var testUnitRed = new primeUnit("red", position, unitName);
+	var index;
+	var unitCatch;
 	/*
 	testUnit.setVisualDisplay(null) {
 
 
 	}
 	*/
+
 	unitArray.push(testUnitRed);
 	unitsOnBoard.push(testUnitRed);
+	
+	for (index = 2; index <= 10; index += 1) {
+		position = new BABYLON.Vector3(1, index, 1.5);
+		unitCatch = makeUnit("red", position, index);
+		unitArray.push(unitCatch);
+	}
+	
+
 
 	return unitArray;
 }
@@ -98,9 +127,6 @@ function gameSetUp() {
 	panel2 = playerNamePanel(player2, (canvas.width * 0.82), (canvas.height * 0.88));
 
 	//need a method to create visuals for units
-
-	panel2.margin.leftPercentage = 0.5;
-	console.log(panel2);
 
 }
 

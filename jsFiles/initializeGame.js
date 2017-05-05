@@ -3,6 +3,14 @@
 
 */
 
+function removeContainer() {
+	var container = document.getElementById("container");
+
+	container.style.visibility = "hidden";
+	container.style.margin = "0";
+
+}
+
 function removeForm() {
 	var form = document.getElementById("form");
 
@@ -15,8 +23,9 @@ function removeForm() {
 */
 function forward() {
 
-	console.log("This far");
 	removeForm();
+
+	removeContainer();
 
 	startGame();
 
