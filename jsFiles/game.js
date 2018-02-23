@@ -4,6 +4,8 @@
 	Date: 2/8/17
 
 	Game implemenation
+	
+	Adding a comment
 */
 
 var unitsOnBoard = [];
