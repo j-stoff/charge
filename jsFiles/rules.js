@@ -5,6 +5,8 @@
 	Rules for the game and all logic therein
 */
 
+// Another comment
+
 
 //Global constants
 const STANDARD_GRID_LENGTH = 10;
